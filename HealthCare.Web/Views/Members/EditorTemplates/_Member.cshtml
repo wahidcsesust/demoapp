@@ -1,0 +1,215 @@
+﻿@using System
+@model HealthCare.Web.Models.Members.MemberViewModel
+@using HealthCare.Web.Models.Modal
+<form method="post" asp-action="Save" role="form" id="frmMember" enctype="multipart/form-data">
+
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Members" })
+
+    <div class="modal-body form-horizontal">
+        <div class="row">
+            @if (!Model.IsNew)
+            {
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Reg No<span class="required">*</span></label>
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.RegNo, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Reg No", @autofocus = "autofocus" })
+                            <span asp-validation-for="RegNo" class="help-block text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Full Name<span class="required">*</span></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                        @Html.TextBoxFor(m => m.MemberType, new { @class = "hidden" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Member Name", @autofocus = "autofocus" })
+                        <span asp-validation-for="Name" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 radio-list">
+                <div class="form-group">
+                    <label class="control-label col-md-3">Gender</label>
+                    <div class="col-md-9">
+                        @if (Model.Gender != null && Model.Gender.Equals("Female"))
+                        {
+                            <label class="radio-inline">
+                                <input type="radio" name="Gender" id="optionsMale" value="Male"> Male
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="Gender" id="optionsFemale" value="Female" checked> Female
+                            </label>
+                        }
+                        else
+                        {
+                            <label class="radio-inline">
+                                <input type="radio" name="Gender" id="optionsMale" value="Male" checked> Male
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="Gender" id="optionsFemale" value="Female"> Female
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Father/Husband</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Father/Husband" })
+                        <span asp-validation-for="FatherName" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                @*<div class="form-group">
+                    <label class="col-md-3 control-label">Amount<span class="required">*</span></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Amount", @type = "number" })
+                        <span asp-validation-for="Amount" class="help-block text-danger"></span>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Mobile</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Mobile Number" })
+                        <span asp-validation-for="MobileNumber" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Address</label>
+                    <div class="col-md-9">
+                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Address" })
+                        <span asp-validation-for="Address" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Age</label>
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(m => m.Age, new { @class = "form-control placeholder-no-fix", @placeholder = "Age", @type = "number" })
+                        <span asp-validation-for="Age" class="help-block text-danger"></span>
+                    </div>
+                    <label class="col-md-3 control-label">Mainbody</label>
+                    @*<div class="col-md-3">
+                        @Html.CheckBoxFor(m => m.IsMainBody, new { @class = "form-control placeholder-no-fix" })
+                        <span asp-validation-for="IsMainBody" class="help-block text-danger"></span>
+                    </div>*@
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Picture</label>
+                    <div class="col-md-9">
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                @if (Model.Id.ToString().Equals("0"))
+                                {
+                                    <img src="~/images/passport-size.png" alt="" />
+                                }
+                                else
+                                {
+                                    @*if (Model.ImageName != null)
+                                        {
+                                            <img src="~/uploads/img/@Model.ImageName" alt="" />
+                                        }*@
+                                    if (Model.ImageData != null)
+                                    {
+                                        var base64 = Convert.ToBase64String(@Model.ImageData);
+                                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                        <img src="@imgSrc" style="height: 100%; width:100%;" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/passport-size.png" alt="" />
+                                    }
+                                }
+
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
+                            <div>
+                                <span class="btn default btn-file">
+                                    <span class="fileinput-new"> Select image </span>
+                                    <span class="fileinput-exists"> Change </span>
+                                    <input asp-for="ImageName" type="file" />
+                                </span>
+                                <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Save" })
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+    //$('#IsMainBody').change(function () {
+    //    if (this.checked) {
+    //        $('#divMainbodyAmount').show();
+    //    } else {
+    //        $('#divMainbodyAmount').hide();
+    //    }
+    //});
+
+    $('#frmMember').on('submit', function (e) {
+        debugger;
+        var name = $('#Name');
+        var amount = $('#Amount');
+        if (!name.val()) {
+            name.closest('.form-group').removeClass('has-success').addClass('has-error');
+            e.preventDefault();
+        } else {
+            name.closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+        if (!amount.val()) {
+            amount.closest('.form-group').removeClass('has-success').addClass('has-error');
+            e.preventDefault();
+        } else {
+            amount.closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+    });
+    //$('#btnSaveMember').click(function () {
+    //    debugger;
+    //    var form = document.getElementById('frmMember');
+    //    var formData = new FormData(form);
+    //    var formObj = $("#frmMember");
+    //    var formURL = formObj.attr("action");
+    //    if ($('#frmMember').valid()) {
+    //        $.ajax({
+    //            url: formURL,
+    //            type: 'POST',
+    //            data: formData,
+    //            mimeType: "multipart/form-data",
+    //            contentType: false,
+    //            cache: false,
+    //            processData: false,
+    //            success: function (data, textStatus, jqXHR) {
+    //                $('#modal-action-addedit-member').modal('hide');
+    //            }
+    //        });
+    //    }
+    //});
+</script>

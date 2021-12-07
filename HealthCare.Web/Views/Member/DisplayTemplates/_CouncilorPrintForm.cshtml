@@ -1,0 +1,108 @@
+﻿@model HealthCare.Data.Models.Member;
+
+<table>
+    <tbody>
+        @Html.Partial("_ReportHeader", new HealthCare.Web.Models.Report.ReportHeader { Heading = "উপদেষ্টা ভর্তি ফরম" })
+    </tbody>
+</table>
+<br />
+<table style="font-size:small">
+    <tr>
+        <td class="remove-border"> উপদেষ্টার নাম </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">................................................</td>
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+        <td class="remove-border"> পেশা </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">....................................</td>
+    </tr>
+    <tr>
+        <td class="remove-border"> পিতা/স্বামীর নাম </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">................................................</td>
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+        <td class="remove-border"> মাতার নাম </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">....................................</td>
+    </tr>
+    <tr>
+        <td class="remove-border"> ঠিকানা </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">................................................</td>
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+        <td class="remove-border"> মোবাইল নং  </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">....................................</td>
+    </tr>
+    <tr>
+        <td class="remove-border"> জন্ম তারিখ </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">................................................</td>
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+        <td class="remove-border">বয়স  </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">....................................</td>
+
+    </tr>
+    <tr>
+        <td class="remove-border"> লিঙ্গ </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">................................................</td>
+
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+
+        <td class="remove-border">রক্তের গ্রুপ </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">....................................</td>
+
+
+    </tr>
+    <tr>
+        <td class="remove-border"> জাতীয়তা </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">................................................</td>
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+
+        <td class="remove-border">ধর্ম  </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">....................................</td>
+    </tr>
+    <tr>
+        <td class="remove-border"> জাতীয় পরিচয়পত্র নং </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">................................................</td>
+
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+
+        <td class="remove-border">পাসপোর্ট নং  </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">....................................</td>
+
+    </tr>
+</table>
+<br />
+<br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <td colspan="2" style="text-align:center; font-weight:bold;">অঙ্গীকার নামা</td>
+        </tr>
+        <tr style="font-size:small">
+            <td colspan="2">
+                আমি .................................................... এই মর্মে স্বেচ্ছায়, স্বজ্ঞানে ও সুস্থ মস্তিস্কে স্বীকার করছি যে, আমার দেওয়া উপরোল্লিখিত সকল তথ্য সত্য এবং নির্ভুল। এছাড়া আরো
+                অঙ্গীকার করছি যে, আমি অত্র সংগঠনের কার্যকরী কমিটির সকল সিদ্ধান্ত মানিয়া চলিব, আমি অত্র সংগঠনের সংবিধান বহির্ভূত কোন কাজ করিব না। সংবিধান বহির্ভূত কোন কাজে লিপ্ত থাকিলে বা প্রমান পাওয়া গেলে আমার উপদেষ্টাপদ
+                বাতিল বলিয়া গণ্য হইবে, ইহাতে আমার কোন আপত্তি থাকিবে না।
+            </td>
+        </tr>
+        @Html.Partial("_ReportFooter")
+    </tbody>
+</table>
+<link href="~/css/report.css" rel="stylesheet" />

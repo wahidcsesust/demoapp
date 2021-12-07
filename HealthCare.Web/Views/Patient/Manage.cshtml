@@ -1,0 +1,81 @@
+﻿
+@using System
+@model IEnumerable<HealthCare.Web.Models.Patients.PatientsViewModel>
+@using HealthCare.Web.Models.Modal
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                @*<a id="sample_editable_1_new" class="btn sbold green" asp-area="" asp-controller="Patients" asp-action="CreateEdit" asp-route-id="0">
+                                    Add New<i class="fa fa-plus"></i>
+                                </a>*@
+                                <a id="addEditPatientsModal" data-toggle="modal" href="/Patient/CreateEdit?id=0&type=patient" data-target="#modal-action-addedit-patients" class="btn sbold green">
+                                    <i class="fa fa-plus"></i>  Add New
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                </th>
+                                <th> Reg No </th>
+                                <th> Patient Name </th>
+                                <th> Age </th>
+                                <th> Gender </th>
+                                <th> Mobile </th>
+                                <th> Address </th>
+                                <th> Edit </th>
+                                <th> Delete </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var patients in Model.ToList())
+                            {
+
+                                <tr class="odd gradeX">
+                                    <td><input type="checkbox" class="checkboxes" value="1" /></td>
+                                    <td> @patients.RegNoView </td>
+                                    <td> @patients.Name </td>
+                                    <td> @patients.Age </td>
+                                    <td> @patients.Gender </td>
+                                    <td> @patients.MobileNumber </td>
+                                    <td> @patients.Address </td>
+                                    <td>
+                                        <a id="addEditPatientsModal" data-toggle="modal" href="/Patient/CreateEdit?id=@patients.Id&type=patient" data-target="#modal-action-addedit-patients" class="btn sbold green">
+                                            <i class="fa fa-edit"></i>  Edit
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a id="deletePatientsModal" data-toggle="modal" href="/Patient/Delete?id=@patients.Id&type=patient" data-target="#modal-action-delete-patients" class="btn btn-danger">
+                                            <i class="glyphicon glyphicon-trash"></i>  Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-delete-patients", AreaLabeledId = "modal-action-delete-patients-label", Size = ModalSize.Small })
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-addedit-patients", AreaLabeledId = "modal-action-addedit-patients-label", Size = ModalSize.Medium })
+@section scripts
+{
+    <script src="~/js/manage-patients.js" asp-append-version="true"></script>
+}

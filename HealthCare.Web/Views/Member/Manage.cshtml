@@ -1,0 +1,183 @@
+﻿
+@using System
+@model IEnumerable<HealthCare.Web.Models.Member.MemberViewModel>
+@using HealthCare.Web.Models.Modal
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <a id="addEditMembersModal" data-toggle="modal" href="/Member/CreateEdit?id=0&type=member" data-target="#modal-action-addedit-members" class="btn sbold green">
+                                    <i class="fa fa-plus"></i>  Add New
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="btn-group">
+                                <a target="_blank" id="printMemberList" Onclick="PrintMemberList()" class="btn sbold green-haze">
+                                    <i class="fa fa-print"></i> Print Report
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                </th>
+                                <th> Reg No </th>
+                                <th> Name </th>
+                                <th> Father Name </th>
+                                <th> Mobile </th>
+                                <th> Blood </th>
+                                <th> Age </th>
+                                <th> Designation </th>
+                                <th> Picture </th>
+                                <th> Edit </th>
+                                <th> Print </th>
+                                @*<th> Id Card </th>*@
+                                <th> Delete </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var patients in Model.ToList())
+                            {
+
+                                <tr class="odd gradeX">
+                                    <td><input type="checkbox" class="checkboxes" value="1" /></td>
+                                    <td> @patients.RegNoView </td>
+                                    <td> @patients.Name </td>
+                                    <td> @patients.FatherName </td>
+                                    <td> @patients.MobileNumber </td>
+                                    <td> @patients.BloodGroup </td>
+                                    <td> @patients.Age </td>
+                                    <td> @patients.Designation </td>
+                                    <td>
+                                        @if (@patients.ImageName != null)
+                                        {
+                                            <img src="~/uploads/img/@patients.ImageName" alt="" style="width: 45px; height: 40px;" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/images/no-image.png" alt="" style=" width: 45px; height: 40px;" />
+                                        }
+                                    </td>
+                                    <td>
+                                        <a id="addEditPatientsModal" data-toggle="modal" href="/Member/CreateEdit?id=@patients.Id&type=member" data-target="#modal-action-addedit-members" class="btn sbold green">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a target="_blank" id="printInvoice" Onclick="PrintMember(@patients.Id)" class="btn sbold green-haze">
+                                            <i class="fa fa-print"></i>
+                                        </a>
+                                    </td>
+                                    @*<td class="text-center">
+                                        <a target="_blank" id="printInvoice" Onclick="PrintIdCard(@patients.Id)" class="btn sbold green-haze">
+                                            <i class="fa fa-print"></i>
+                                        </a>
+                                    </td>*@
+                                    <td class="text-center">
+                                        <a id="deletePatientsModal" data-toggle="modal" href="/Member/Delete?id=@patients.Id&type=member" data-target="#modal-action-delete-members" class="btn btn-danger">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-delete-members", AreaLabeledId = "modal-action-delete-members-label", Size = ModalSize.Small })
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-addedit-members", AreaLabeledId = "modal-action-addedit-members-label", Size = ModalSize.Medium })
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-member-report", AreaLabeledId = "modal-action-member-report-label", Size = ModalSize.Small })
+@section scripts
+{
+    <script src="~/js/manage-members.js" asp-append-version="true"></script>
+}
+<script type="text/javascript">
+    function PrintMemberList() {
+        var url = window.location.pathname;
+        var id = url.substring(url.lastIndexOf('/') + 1);
+
+        var objectId = id;
+        var bloodGroupId = 0;
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PrintMemberReport", "Report")',
+            type: "GET",
+            data: {
+                "objectId": objectId,
+                "bloodGroupId": bloodGroupId
+            },
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                var printWindow = window.open('', '', 'height=900,width=1400');
+                printWindow.document.write('<!DOCTYPE html><html><head><title>আল্লাহ্ সর্বশক্তিমান</title>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write(data.html);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        });
+    }
+    function PrintMember(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("PrintMember", "Member")',
+                type: "GET",
+                data: {
+                    "memberId": id
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    var printWindow = window.open('', '', 'height=900,width=1400');
+                    printWindow.document.write('<!DOCTYPE html><html><head><title>আল্লাহ্ সর্বশক্তিমান</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(data.html);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
+            });
+    }
+    function PrintIdCard(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("PrintIdCard", "Member")',
+                type: "GET",
+                data: {
+                    "memberId": id
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    var printWindow = window.open('', '', 'height=900,width=1400');
+                    printWindow.document.write('<!DOCTYPE html><html><head><title>আল্লাহ্ সর্বশক্তিমান</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(data.html);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
+            });
+    }
+</script>

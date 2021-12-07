@@ -1,0 +1,334 @@
+﻿@model HealthCare.Web.Models.Report.ReportViewModel
+@using HealthCare.Web.Models.Modal
+@using HealthCare.Web.Models.Report
+@using HealthCare.Data.Models
+
+<form method="post" role="form" id="frmReport" asp-controller="Report" asp-action="GenerateReport">
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = Model.ReportHeading })
+    @Html.HiddenFor(m => m.ReportTypeEnum)
+    <div class="modal-body form-horizontal">
+        @if (Model.ReportTypeEnum == ReportTypeEnum.MemberReport)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Member Category</label>
+                        <div class="col-md-8">
+                            <select asp-for="MemberCategoryEnum" asp-items="Html.GetEnumSelectList<MemberCategoryEnum>()" class="form-control">
+                                <option value="0">[All]</option>
+                            </select>
+                            <span asp-validation-for="MemberCategoryEnum" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Area Location</label>
+                        <div class="col-md-8">
+                            <select asp-for="AreaLocationEnum" asp-items="Html.GetEnumSelectList<AreaLocationEnum>()" class="form-control">
+                                <option value="0">[All]</option>
+                            </select>
+                            <span asp-validation-for="AreaLocationEnum" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Blood Group</label>
+                        <div class="col-md-8">
+                            <select asp-for="BloodGroupEnum" asp-items="Html.GetEnumSelectList<BloodGroupEnum>()" class="form-control">
+                                <option value="0">[All]</option>
+                            </select>
+                            <span asp-validation-for="BloodGroupEnum" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn green text-left" id="btnReportCollection">View Collection</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        @*<button type="button" class="btn green text-left" id="btnReportDailyCollection">Daily Collection</button>*@
+        <button data-dismiss="modal" id="btn-cancel" class="btn btn-default" type="button">Close</button>
+        <button type="button" class="btn green" id="btnReport">View Report</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    $('#btnReport').click(function () {
+        if ('@Model.ReportTypeEnum' == 'MemberReport') {
+            GenerateMemberReport();
+        }
+    });
+    $('#btnReportCollection').click(function () {
+        if ('@Model.ReportTypeEnum' == 'MemberReport') {
+            GenerateMemberReportCollection();
+        }
+    });
+    $('#btnReportDailyCollection').click(function () {
+        if ('@Model.ReportTypeEnum' == 'MemberReport') {
+            GenerateMemberReportDailyCollection();
+        }
+    });
+    function GenerateMemberReportDailyCollection() {
+        var objectId = $("#MemberCategoryEnum").val();
+        var areaLocationId = $("#AreaLocationEnum").val();
+        var bloodGroupId = $("#BloodGroupEnum").val();
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PrintMemberReportDailyCollection", "Report")',
+            type: "GET",
+            data: {
+                "objectId": objectId,
+                "areaLocationId": areaLocationId,
+                "bloodGroupId": bloodGroupId
+            },
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                var printWindow = window.open('', '', 'height=900,width=1400');
+                printWindow.document.write('<!DOCTYPE html><html><head><title>আল্লাহ্ সর্বশক্তিমান</title>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write(data.html);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        });
+    }
+    function GenerateMemberReportCollection() {
+        var objectId = $("#MemberCategoryEnum").val();
+        var areaLocationId = $("#AreaLocationEnum").val();
+        var bloodGroupId = $("#BloodGroupEnum").val();
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PrintMemberReportCollection", "Report")',
+            type: "GET",
+            data: {
+                "objectId": objectId,
+                "areaLocationId": areaLocationId,
+                "bloodGroupId": bloodGroupId
+            },
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                var printWindow = window.open('', '', 'height=900,width=1400');
+                printWindow.document.write('<!DOCTYPE html><html><head><title>আল্লাহ্ সর্বশক্তিমান</title>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write(data.html);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        });
+    }
+
+    function GenerateMemberReport() {
+        var objectId = $("#MemberCategoryEnum").val();
+        var areaLocationId = $("#AreaLocationEnum").val();
+        var bloodGroupId = $("#BloodGroupEnum").val();
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PrintMemberReport", "Report")',
+            type: "GET",
+            data: {
+                "objectId": objectId,
+                "areaLocationId": areaLocationId,
+                "bloodGroupId": bloodGroupId
+            },
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                var printWindow = window.open('', '', 'height=900,width=1400');
+                printWindow.document.write('<!DOCTYPE html><html><head><title>আল্লাহ্ সর্বশক্তিমান</title>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write(data.html);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        });
+    }
+    function GenerateExpenseNPharmacyReport(reportType) {
+        debugger;
+        var fromDate = $('#DateFrom');
+        if (!fromDate.val()) {
+            toastr.warning("Warning : Please select from date");
+            return;
+        }
+        var toDate = $('#DateTo');
+        if (!toDate.val()) {
+            toastr.warning("Warning : Please select to date");
+            return;
+        }
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PrintExpenseNPharmacyReport", "Report")',
+            type: "GET",
+            data: {
+                "reportType": reportType,
+                "fromDate": fromDate.val(),
+                "toDate": toDate.val()
+            },
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                var printWindow = window.open('', '', 'height=900,width=1400');
+                printWindow.document.write('<!DOCTYPE html><html><head><title>Expense Report</title>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write(data.html);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        });
+    }
+    function GenerateMedicalTestReport() {
+        var fromDate = $('#DateFrom');
+        if (!fromDate.val()) {
+            toastr.warning("Warning : Please select from date");
+            return;
+        }
+        var toDate = $('#DateTo');
+        if (!toDate.val()) {
+            toastr.warning("Warning : Please select to date");
+            return;
+        }
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PrintMedicalTest", "Report")',
+            type: "GET",
+            data: {
+                "fromDate": fromDate.val(),
+                "toDate": toDate.val()
+            },
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                var printWindow = window.open('', '', 'height=900,width=1400');
+                printWindow.document.write('<!DOCTYPE html><html><head><title>Daily Transaction Report</title>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write(data.html);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        });
+    }
+    function GenerateAdmissionReport() {
+        var fromDate = $('#DateFrom');
+        if (!fromDate.val()) {
+            toastr.warning("Warning : Please select from date");
+            return;
+        }
+        var toDate = $('#DateTo');
+        if (!toDate.val()) {
+            toastr.warning("Warning : Please select to date");
+            return;
+        }
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PrintAdmissionReport", "Report")',
+            type: "GET",
+            data: {
+                "fromDate": fromDate.val(),
+                "toDate": toDate.val()
+            },
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                var printWindow = window.open('', '', 'height=900,width=1400');
+                printWindow.document.write('<!DOCTYPE html><html><head><title>Daily Transaction Report</title>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write(data.html);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        });
+    }
+    function GenerateDoctorVisitReport() {
+        //var objectId = $("#ObjectId").val();
+
+        var fromDate = $('#DateFrom');
+        if (!fromDate.val()) {
+            toastr.warning("Warning : Please select from date");
+            return;
+        }
+        var toDate = $('#DateTo');
+        if (!toDate.val()) {
+            toastr.warning("Warning : Please select to date");
+            return;
+        }
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PrintDoctorVisit", "Report")',
+            type: "GET",
+            data: {
+                //"doctorId": objectId,
+                "fromDate": fromDate.val(),
+                "toDate": toDate.val()
+            },
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                var printWindow = window.open('', '', 'height=900,width=1400');
+                printWindow.document.write('<!DOCTYPE html><html><head><title>Daily Transaction Report</title>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write(data.html);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        });
+    }
+
+    function GenerateAppointmentReport() {
+        debugger;
+        var numberRegex = /^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+        var objectId = $("#ObjectId").val();
+        if (!numberRegex.test(objectId) || objectId == "0") {
+            toastr.warning("Warning : Please select a doctor");
+            return;
+        }
+
+        var dateOfAppointment = $('#AppointmentDateString');
+        if (!dateOfAppointment.val()) {
+            toastr.warning("Warning : Please select date");
+            return;
+        }
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PrintDoctorAppointment", "Report")',
+            type: "GET",
+            data: {
+                "doctorId": objectId,
+                "dateOfAppointment": dateOfAppointment.val()
+            },
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                var printWindow = window.open('', '', 'height=900,width=1400');
+                printWindow.document.write('<!DOCTYPE html><html><head><title>Doctor Appointment Report</title>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write(data.html);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        });
+    }
+</script>

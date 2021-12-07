@@ -1,0 +1,94 @@
+@using HealthCare.Web.Models.Accounting
+@model AccountHeadViewModel
+@using HealthCare.Web.Models.Modal
+
+<form method="post" asp-action="Save" role="form" id="frmAccountHead" enctype="multipart/form-data">
+
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Acconunt Head" })
+
+    <div class="modal-body form-horizontal">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Acconunt Type<span class="required">*</span></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                        <select asp-for="AccountHeadTypeId" asp-items="@Model.AcconuntHeadTypes" class="form-control">
+                            <option>Please select</option>
+                        </select>
+                        <span asp-validation-for="AccountHeadTypeId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Account Name<span class="required">*</span></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control placeholder-no-fix", @placeholder = "Name" })
+                        <span asp-validation-for="Name" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Opening Balance<span class="required">*</span></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.OpeningBalance, new { @class = "form-control placeholder-no-fix", @type = "number", @placeholder = "Amount" })
+                        <span asp-validation-for="OpeningBalance" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Current Balance<span class="required">*</span></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.CurrentBalance, new { @class = "form-control placeholder-no-fix", @type = "number", @placeholder = "Amount" })
+                        <span asp-validation-for="CurrentBalance" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Actual Current Balance<span class="required">*</span></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.ActualCurrentBalance, new { @class = "form-control placeholder-no-fix", @type = "number", @placeholder = "Amount" })
+                        <span asp-validation-for="ActualCurrentBalance" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Save" })
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    $('#frmAccountHead').on('submit', function (e) {
+        debugger;
+        var acconuntHeadTypeId = $("#AcconuntHeadTypeId");
+        if (!numberRegex.test(acconuntHeadTypeId.val())) {
+            acconuntHeadTypeId.closest('.form-group').removeClass('has-success').addClass('has-error');
+            e.preventDefault();
+        } else {
+            acconuntHeadTypeId.closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+
+        var name = $('#Name');
+        if (!name.val()) {
+            name.closest('.form-group').removeClass('has-success').addClass('has-error');
+            e.preventDefault();
+        } else {
+            name.closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+    });
+</script>

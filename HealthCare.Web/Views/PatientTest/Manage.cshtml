@@ -1,0 +1,87 @@
+﻿
+@using System
+@model IEnumerable<HealthCare.Web.Models.PatientTests.PatientTestViewModel>
+@using HealthCare.Web.Models.Modal
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <a id="sample_editable_1_new" class="btn sbold green" asp-area="" asp-controller="PatientTest" asp-action="CreateEdit" asp-route-id="0">
+                                    Add New<i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group" style="float:right;">
+                                <a id="sample_editable_1_new" class="btn sbold green" asp-area="" asp-controller="PatientTest" asp-action="CreateEditAddHoc" asp-route-id="0">
+                                    Add Hoc<i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-striped table-bordered table-hover table-checkable" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                </th>
+                                <th class="sorting_desc" aria-sort="descending"> SL </th>
+                                <th> Appointment No </th>
+                                <th> Patient </th>
+                                <th> Doctor </th>
+                                <th> No of Tests </th>
+                                <th> Delivery Date </th>
+                                <th> Edit </th>
+                                @*<th> Delete </th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var patientTest in Model.ToList())
+                            {
+
+                                <tr class="odd gradeX">
+                                    <td><input type="checkbox" class="checkboxes" value="1" /></td>
+                                    <td> @patientTest.Id </td>
+                                    <td> @patientTest.AppointmentNo </td>
+                                    <td> @patientTest.PatientName </td>
+                                    <td> @patientTest.DoctorName </td>
+                                    <td> @patientTest.NoOfMedicalTests </td>
+                                    <td> @patientTest.DeliveryDateDisplay </td>
+                                    @if (patientTest.AppointmentId == 0)
+                                    {
+                                        <td><a class="btn btn-success edit" asp-action="CreateEditAddHoc" asp-route-id="@patientTest.Id"> <i class="glyphicon glyphicon-edit"></i>  </a></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a class="btn btn-success edit" asp-action="CreateEdit" asp-route-id="@patientTest.Id"> <i class="glyphicon glyphicon-edit"></i>  </a></td>
+                                    }
+                                    @*<td>
+                                            <a id="deletePatientTestModal" data-toggle="modal" asp-action="Delete" asp-route-id="@patientTest.Id" data-target="#modal-action-patienttest" class="btn btn-danger">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                            </a>
+                                        </td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-patienttest", AreaLabeledId = "modal-action-patienttest-label", Size = ModalSize.Small })
+@section scripts
+{
+    <script src="~/js/patienttest-manage.js" asp-append-version="true"></script>
+}

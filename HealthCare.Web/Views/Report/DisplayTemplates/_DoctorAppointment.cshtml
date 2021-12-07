@@ -1,0 +1,59 @@
+﻿@model IEnumerable<HealthCare.Web.Models.Report.ReportViewModel>
+
+<table>
+    <tbody>
+        <tr>
+            <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+            <td style="text-align:center">HEALTH CARE CENTRE - @DateTime.Now.Year</td>
+            <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+        </tr>
+        <tr>
+            <td style="text-align:center">Appointment Report</td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <tr>
+        <td colspan="4">Doctor : @ViewData["Name"]</td>
+
+        <td colspan="2">Date : @ViewData["DateOfAppointment"]</td>
+    </tr>
+</table>
+@if (Model.Count() > 0)
+{
+    <table>
+        <thead>
+            <tr>
+                <th> Serial No </th>
+                <th> Patient </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appointment in Model.ToList())
+            {
+                <tr>
+                    <td> @appointment.SerialNo </td>
+                    <td> @appointment.PatientName </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    .remove-border {
+        border: 0px solid white;
+    }
+</style>
+

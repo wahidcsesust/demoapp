@@ -1,0 +1,19 @@
+﻿.modal-sm-custom {
+    width: 40%;
+}
+
+.modal-md-custom {
+    width: 60%;
+}
+
+.modal-lg-custom {
+    width: 80%;
+}
+
+.select2-container {
+    width: auto !important;
+}
+
+.date-picker-width {
+    width: 15rem !important;
+}

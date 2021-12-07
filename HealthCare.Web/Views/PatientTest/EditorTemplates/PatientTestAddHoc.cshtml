@@ -1,0 +1,514 @@
+﻿@model HealthCare.Web.Models.PatientTests.PatientTestViewModel
+@using HealthCare.Web.Models.Modal
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Medical Test
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"></a>
+            <a href="#portlet-config" data-toggle="modal" class="config"></a>
+            <a href="javascript:;" class="reload"></a>
+            <a href="javascript:;" class="remove"></a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form role="form" class="form-horizontal" id="frmPatientTest" method="post" asp-controller="PatientTest" asp-action="SaveAddHoc">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Appointment No</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                                @Html.TextBoxFor(m => m.DueAmountHide, new { @class = "hidden" })
+                                <select asp-for="AppointmentId" asp-items="@Model.Appointments" class="form-control">
+                                    @*<option>Please select</option>*@
+                                    <option value="0">[No Appointment]</option>
+                                </select>
+                                <span asp-validation-for="AppointmentId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Patient</label>
+                            <div class="col-md-5">
+                                <select asp-for="PatientId" asp-items="@Model.Patients" class="form-control select2">
+                                    <option>Please select</option>
+                                </select>
+                                <span asp-validation-for="PatientId" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="addEditPatientsModal" data-toggle="modal" onclick="AddPatient()" href="#" data-target="#modal-action-addedit-patients" class="btn btn-icon-only green">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <a id="addEditPatientsModal" data-toggle="modal" onclick="EditPatient()" href="#" data-target="#modal-action-addedit-patients" class="btn btn-icon-only yellow">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a id="deletePatientsModal" data-toggle="modal" onclick="DeletePatient()" href="#" data-target="#modal-action-delete-patients" class="btn btn-icon-only red">
+                                    <i class="fa fa-remove"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Doctor Ref.</label>
+                            <div class="col-md-9">
+                                <select asp-for="DoctorId" asp-items="@Model.Doctors" class="form-control select2">
+                                    <option value="0">Please select</option>
+                                </select>
+                                <span asp-validation-for="DoctorId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Delivery Date</label>
+                            <div class="col-md-9">
+                                @*<div id="dateofbirth" class="input-group date date-picker" data-provide="datepicker" data-date-format="mm/dd/yyyy">
+                                    @Html.TextBoxFor(m => m.DateOfDelivery, new { @class = "form-control", @readonly = "readonly" })
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="DateOfDelivery" class="text-danger" />*@
+                                <div class="input-group input-medium date date-picker date-picker-width" data-date-format="dd-mm-yyyy">
+                                @Html.TextBoxFor(m => m.DeliveryDateString, new { @class = "form-control", @readonly = "readonly" })
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Delivery Date</label>
+                                <div class="col-md-9">
+                                    <div id="dateofbirth" class="input-group date date-picker" data-provide="datepicker" data-date-format="mm/dd/yyyy">
+                                        @Html.TextBoxFor(m => m.DateOfDelivery, new { @class = "form-control", @readonly = "readonly" })
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="DateOfDelivery" class="text-danger" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                    </div>*@
+
+                <h3 class="mt-repeater-title">Medical Test Detail</h3>
+                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="tblPatientTestDetail">
+                    <thead>
+                        <tr>
+                            <th> Medical Test </th>
+                            <th> Test Rate </th>
+                            @*<th> Discount (%) </th>*@
+                            <th> Amount </th>
+                            <th class="text-center"> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.PatientTestDetails != null && Model.PatientTestDetails.Count > 0)
+                        {
+                            foreach (var patientTestDetail in Model.PatientTestDetails)
+                            {
+                                <tr class="odd gradeX">
+                                    @Html.EditorFor(m => patientTestDetail, "_PatientTestDetail")
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <br />
+                @if (!Model.IsNew)
+                {
+                    <a class="btn btn-small btn-primary toUpperCase" href="javascript://" onclick="AddEditPatientTestDetail($('#frmPatientTest').find('#Id').val(),0)"><i class="icon-add"></i>Add Item</a>
+                }
+                <hr>
+                @if (Model.PatientTestDetails.Count > 0)
+                {
+                    <h3 class="mt-repeater-title">Test Payment Detail</h3>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Total</label>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @autofocus = "autofocus", @disabled = "disabled" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Less</label>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(m => m.LessAmount, new { @class = "form-control", @type = "number", @onchange = "LessAmountOnChangeEvent(this)" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Due</label>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.DueAmount, new { @class = "form-control", @type = "number", @disabled = "disabled" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Payment</label>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(m => m.PaidAmount, new { @class = "form-control", @type = "number", @onchange = "PaidAmountOnChangeEvent(this)" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">&nbsp;</label>
+                                <div class="col-md-9">
+                                    <button type="button" class="btn btn-circle yellow-casablanca" id="btnTestPayment"><i class="glyphicon glyphicon-ok"></i> Save</button>
+                                    <a target="_blank" Onclick="PrintInvoice(@Model.Id)" class="btn btn-circle yellow-casablanca" id="btnPrintInvoice"><i class="glyphicon glyphicon-print"></i> Invoice</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                }
+            </div>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-offset-9 col-md-10">
+                        <button type="submit" class="btn btn-lg btn-circle green" id="btnSavePayment"><i class="glyphicon glyphicon-saved"></i> Save</button>
+                        <a asp-controller="PatientTest" asp-action="Manage" class="btn btn-lg btn-circle grey-salsa btn-outline"><i class="glyphicon glyphicon-backward"></i> Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+        function AddPatient() {
+            AddEditPatient(0);
+        }
+        function EditPatient() {
+            AddEditPatient($("#PatientId").val());
+        }
+        function DeletePatient() {
+            DeleteRemovePatient($("#PatientId").val());
+        }
+        function AddEditPatient(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("CreateEdit", "Patient")',
+                type: "GET",
+                data: {
+                    "id": id,
+                    "type": 'appointMent'
+                },
+                //dataType: "json",
+                //async:false,
+                success: function (html) {
+                    $('#modal-action-addedit-patients').html(html).modal('show');
+                }
+            });
+        }
+
+        function DeleteRemovePatient(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("Delete", "Patient")',
+                type: "GET",
+                data: {
+                    "id": id,
+                    "type": 'appointMent'
+                },
+                //dataType: "json",
+                //async:false,
+                success: function (html) {
+                    debugger;
+                    $('#modal-action-delete-patients').html(html).modal('show');
+                }
+            });
+        }
+        function PrintInvoice(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("PrintPatientTestInvoice", "PatientTest")',
+                type: "GET",
+                data: {
+                    "patientTestId": id
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    var printWindow = window.open('', '', 'height=900,width=1400');
+                    printWindow.document.write('<!DOCTYPE html><html><head><title>Invoice</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(data.html);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
+            });
+        }
+        $('#btnTestPayment').click(function () {
+            if (!$('#PaidAmount').val()) {
+                toastr.warning("Warning : Please enter payment");
+                return;
+            }
+            if (parseInt($('#DueAmount').val()) <= 0) {
+                toastr.warning("Warning : Payment done. No Due Found!");
+                return;
+            }
+            var patientTestId = $("#Id").val();
+            var totalAmount = $('#TotalAmount').val();
+            var lessAmount = $('#LessAmount').val();
+            var dueAmount = $('#DueAmount').val();
+            var paidAmount = $('#PaidAmount').val();
+            var actualDue = parseInt(dueAmount) - parseInt(paidAmount);
+            $.ajax({
+                url: '@Url.Action("SaveTestPayment", "PatientTest")',
+                type: 'GET',
+                data: {
+                    "patientTestId": patientTestId,
+                    "totalAmount": totalAmount,
+                    "lessAmount": lessAmount,
+                    "dueAmount": actualDue,
+                    "paidAmount": paidAmount,
+                },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    if (data.isResultOk) {
+                        $("#DueAmount").val(actualDue);
+                        $("#PaidAmount").val(0);
+                        //$("#btnPrintInvoice").removeClass('btn-hide');
+                        toastr.success("Notifications : Payment Collection successfull");
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-right",
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                    }
+                }
+            });
+        });
+
+        @*$('#btnTestPayment').click(function () {
+            var patientTestId = $("#Id").val();
+            var totalAmount = $('#TotalAmount').val();
+            var paidAmount = $('#PaidAmount').val();
+            if (!paidAmount) {
+                toastr.warning("Warning : Please enter paid amount");
+                return;
+            }
+
+            var dueAmount = $('#DueAmount').val();
+            if (!dueAmount) {
+                toastr.warning("Warning : Please enter due amount");
+                return;
+            }
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("CheckPaymentCollection", "PatientTest")',
+                type: "GET",
+                data: {
+                    "patientTestId": patientTestId,
+                    "totalAmount": totalAmount,
+                    "paidAmount": paidAmount,
+                    "dueAmount": dueAmount
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    if (data.isResultOk) {
+                        toastr.error(data.message);
+                        return;
+                    } else {
+                        SubmitPaymentCollection(patientTestId, totalAmount, paidAmount, dueAmount);
+                    }
+                }
+            });
+        });*@
+
+        function SubmitPaymentCollection(patientTestId, totalAmount, paidAmount, dueAmount) {
+            debugger;
+            $.ajax({
+                url: '@Url.Action("SavePaymentCollection", "PatientTest")',
+                type: 'GET',
+                data: {
+                    "patientTestId": patientTestId,
+                    "totalAmount": totalAmount,
+                    "paidAmount": paidAmount,
+                    "dueAmount": dueAmount
+                },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    if (data.isResultOk) {
+                        $("#DueAmount").val(data.dueAmount);
+                        $("#PaidAmount").val(0);
+                        //$("#btnPrintInvoice").removeClass('btn-hide');
+                        toastr.success("Notifications : Payment Collection successfull");
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-right",
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                    }
+                }
+            });
+        }
+
+        $("#AppointmentId").change(function () {
+            var appointmentId = $("#AppointmentId").val();
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("CheckPatientTest", "PatientTest")',
+                type: "GET",
+                data: {
+                    "appointmentId": appointmentId
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    if (data.isResultOk) {
+                        toastr.error(data.message);
+                        return;
+                    } else {
+                        AppointmentChangeHandler(appointmentId);
+                    }
+                }
+            });
+        });
+        function AppointmentChangeHandler(objectId) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("GetAppointmentDetail", "PatientTest")',
+                type: "GET",
+                data: {
+                    "objectId": objectId
+                },
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    $("#RegNo").val(result.regNo);
+                    $("#PatientName").val(result.patientName);
+                    $("#DoctorName").val(result.doctorName);
+                    $("#PatientId").val(result.patientId);
+                    $("#DoctorId").val(result.doctorId);
+                }
+            });
+        }
+        var AddEditPatientTestDetail = function (parentId, childId) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("CheckPaymentStarted", "PatientTest")',
+                type: "GET",
+                data: {
+                    "patientTestId": parentId
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    if (data.isResultOk) {
+                        toastr.error(data.message);
+                        return;
+                    } else {
+                        CreateNewPatientTest(parentId, childId);
+                    }
+                }
+            });
+        };
+        function CreateNewPatientTest(parentId, childId) {
+            var table = document.getElementsByTagName('table')['tblPatientTestDetail'];
+            var trs = table.getElementsByTagName('tr');
+            var rowno = trs.length;
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("CreateEditPatientTestDetail", "PatientTest")',
+                type: "GET",
+                data: "parentId=" + parentId + "&childId=" + childId,
+                success: function (result) {
+                    $("#tblPatientTestDetail tbody").append("<tr>" + result + "</tr>");
+                    var form = $("#tblPatientTestDetail").closest("form");
+                    form.removeData("validator");
+                    form.removeData("unobtrusiveValidation");
+                    //$.validator.unobtrusive.parse(form);
+                }
+            });
+        }
+    </script>
+    <script src="~/js/patienttest-detail.js"></script>
+}
+<style type="text/css">
+    .div-table {
+        display: table;
+        width: auto;
+        background-color: #eee;
+        border: 1px solid #666666;
+        border-spacing: 5px; /* cellspacing:poor IE support for  this */
+    }
+
+    .div-table-row {
+        display: table-row;
+        width: auto;
+        clear: both;
+    }
+
+    .div-table-col {
+        float: left; /* fix for  buggy browsers */
+        display: table-column;
+        width: 200px;
+        background-color: #ccc;
+    }
+
+    .btn-hide {
+        display: none;
+    }
+
+    .btn-show {
+        display: block;
+    }
+</style>
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-delete-patients", AreaLabeledId = "modal-action-delete-patients-label", Size = ModalSize.Small })
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-addedit-patients", AreaLabeledId = "modal-action-addedit-patients-label", Size = ModalSize.Medium })

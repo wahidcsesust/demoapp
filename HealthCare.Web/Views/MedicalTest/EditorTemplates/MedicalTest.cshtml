@@ -1,0 +1,78 @@
+﻿@using System
+@model HealthCare.Web.Models.MedicalTest.MedicalTestViewModel
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Medical Test Setup
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+            <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+            <a href="javascript:;" class="reload"> </a>
+            <a href="javascript:;" class="remove"> </a>
+        </div>
+    </div>
+
+    <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <form class="form-horizontal" role="form" method="post" asp-controller="MedicalTest" asp-action="Save">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Medical Test Code</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                                @Html.TextBoxFor(m => m.Code, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Medical Test Code", @autofocus = "autofocus" })
+                                <span asp-validation-for="Code" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Medical Test Name</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Medical Test Name", @autofocus = "autofocus" })
+                                <span asp-validation-for="Name" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Medical Test Rate</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Amount", @autofocus = "autofocus" })
+                                <span asp-validation-for="Amount" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Category</label>
+                            <div class="col-md-9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-9"> </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn green">Save</button>
+                                @*<a type="button" class="btn default" asp-controller="Department" asp-action="Manage">Cancel</a>*@
+                                <button data-dismiss="modal" id="btn-cancel" class="btn btn-default" type="button">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

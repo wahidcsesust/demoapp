@@ -1,0 +1,65 @@
+﻿
+@using System
+@model IEnumerable<HealthCare.Data.Models.Room>
+@using HealthCare.Web.Models.Modal
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <a id="sample_editable_1_new" class="btn sbold green" asp-area="" asp-controller="Room" asp-action="CreateEdit" asp-route-id="0">
+                                    Add New<i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                </th>
+                                <th> Room No </th>
+                                <th> Location </th>
+                                <th> Edit </th>
+                                <th> Delete </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var room in Model.ToList())
+                            {
+
+                                <tr class="odd gradeX">
+                                    <td><input type="checkbox" class="checkboxes" value="1" /></td>
+                                    <td> @room.RoomNo </td>
+                                    <td> @room.Location </td>
+                                    <td><a class="btn btn-success edit" asp-action="CreateEdit" asp-route-id="@room.Id"> <i class="glyphicon glyphicon-edit"></i>  Edit </a></td>
+                                    <td>
+                                        <a id="deleteRoomModal" data-toggle="modal" asp-action="Delete" asp-route-id="@room.Id" data-target="#modal-action-room" class="btn btn-danger">
+                                            <i class="glyphicon glyphicon-trash"></i>  Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-room", AreaLabeledId = "modal-action-room-label", Size = ModalSize.Small })
+@section scripts
+{
+    <script src="~/js/room-manage.js" asp-append-version="true"></script>
+}

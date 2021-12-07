@@ -1,0 +1,229 @@
+﻿@model HealthCare.Data.Models.Member;
+
+<table>
+    <tbody>
+        @Html.Partial("_ReportHeader", new HealthCare.Web.Models.Report.ReportHeader { Heading = "আইডি কার্ড", ImageName = @Model.ImageName })
+
+        <tr>
+            @if (@Model.Category == "AdvisoryCouncil")
+            {
+                <td colspan="3" style="font-weight:bold"> উপদেষ্টা নং - @Model.RegNo</td>
+            }
+            else if (@Model.Category == "ExecutiveCouncil")
+            {
+                <td colspan="3" style="font-weight:bold"> কার্যনির্বাহী নং - @Model.RegNo</td>
+            }
+            else
+            {
+                <td colspan="3" style="font-weight:bold"> সদস্য নং - @Model.RegNo</td>
+            }
+        </tr>
+    </tbody>
+</table>
+<br />
+<table style="font-size:small">
+    <tr><td style="background-color:cornflowerblue"></td><td style="background-color:cornflowerblue"></td></tr>
+    <tr>
+        <td>
+            <table>
+                <tr>
+                    <td class="text-center remove-border">
+                        <img src="~/assets/layouts/layout/img/logo-final-001.png" style="width: 60px; height: 60px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center remove-border">
+                        <span style="font-size: small; color:forestgreen">
+                            অসহায় ও দরিদ্র মানুষের সেবায় নিয়োজিত...
+                        </span>
+                        <span style="font-weight: bold; color: red; font-size:medium"> <br />ইসলামপুর যুব মানব কল্যাণ সংগঠন</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center remove-border">
+                        <span style="font-size: large; font-weight:bolder; color:indigo; background-color:bisque">
+                            ID NO : @Model.RegNo.ToString().PadLeft(5, '0')
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center remove-border">
+                        @if (Model.ImageName != null)
+                        {
+                            <img src="~/uploads/img/@Model.ImageName" alt="" style="width: 150px; height: 150px;" />
+                        }
+                        else
+                        {
+                            <img src="~/images/no-image.png" alt="" style=" width: 150px; height: 150px;" />
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center remove-border" style="font-weight: bold;">
+                        <span style="font-size: large; font-weight:bolder; color:cornflowerblue"> @Model.Name</span> <br />
+                        <span style="font-size:medium;color:darkcyan"> @Model.DesignationString</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="remove-border">
+                        <table>
+                            <tr>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">Mobile No</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">:</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">@Model.MobileNumber</span></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                            </tr>
+                            <tr>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">Blood Group</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">:</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">@Model.BloodGroupString</span></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                            </tr>
+                            <tr>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">Date of Birth</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">:</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">@Model.DateOfBirthString</span></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="remove-border">
+                        <table>
+                            <tbody>
+
+                                <tr><td colspan="2" class="remove-border"></td></tr>
+                                @*<tr>
+                                        <td class="remove-border"></td>
+                                        <td class="remove-border  text-right"><img src="~/images/rubel-sign-final.jpg" style="width: 140px; height: 20px;" /></td>
+                                    </tr>*@
+                                <tr>
+                                    <td class="remove-border">..............................</td>
+                                    <td class="remove-border  text-right">.................................</td>
+                                </tr>
+                                <tr>
+                                    <td class="remove-border font-small">Member Signature</td>
+                                    <td class="remove-border text-right font-small">Authorized Signature</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+
+        <td>
+            <table>
+                <tr>
+                    <td class="text-center remove-border">
+                        <span style="font-size: larger; font-weight:bolder; color:indigo;">
+                            PERSONAL INFORMATION
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="remove-border">
+                        -------------------------------------------------------------------------
+                    </td>
+                </tr>
+                <tr>
+                    <td class="remove-border">
+                        <table>
+                            <tr>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">Father's Name</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">:</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">@Model.FatherName</span></td>
+                                <td class="remove-border"></td>
+                            </tr>
+                            <tr>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">Location</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">:</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">@Model.AreaLocationString</span></td>
+                                <td class="remove-border"></td>
+                            </tr>
+                            <tr>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">Profession</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">:</span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">@Model.Profession</span></td>
+                                <td class="remove-border"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center remove-border">
+                        <table>
+                            <tr>
+                                <td>
+                                    <span style="font-size: small; font-weight:bolder; color:orangered; background-color:bisque">
+                                        If this card is found please return to the Authority@*This card is the property of the Organization.If found please return to the authority*@
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="remove-border">
+                        <table>
+                            <tr>
+                                <td class="remove-border text-right"><span style="font-weight:bold; font-size:small"><img src="~/images/location.png" alt="" style=" width:20px; height: 20px;" /></span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">Islampur Pachtola Mor, Bogura</span></td>
+                            </tr>
+                            <tr>
+                                <td class="remove-border text-right"><span style="font-weight:bold; font-size:small"><img src="~/images/email.jpg" alt="" style=" width:20px; height: 20px;" /></span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">islampurwelfare2021@gmail.com</span></td>
+                            </tr>
+                            <tr>
+                                <td class="remove-border text-right"><span style="font-weight:bold; font-size:small"><img src="~/images/facebook.png" alt="" style=" width:20px; height: 20px;" /></span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">www.facebook/izmks2021</span></td>
+                            </tr>
+                            <tr>
+                                <td class="remove-border text-right"><span style="font-weight:bold; font-size:small"><img src="~/images/website.jpg" alt="" style=" width:20px; height: 20px;" /></span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">www.izmksweb.codebonds.com</span></td>
+                            </tr>
+                            <tr>
+                                <td class="remove-border text-right"><span style="font-weight:bold; font-size:small"><img src="~/images/youtube.png" alt="" style=" width:20px; height: 20px;" /></span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">channel/UCKgrdp4Hf9rAZM0sP90Ij-A</span></td>
+                            </tr>
+                            <tr>
+                                <td class="remove-border text-right"><span style="font-weight:bold; font-size:small"><img src="~/images/telephone.png" alt="" style=" width:20px; height: 20px;" /></span></td>
+                                <td class="remove-border"><span style="font-weight:bold; font-size:small">01552-658544</span></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr><td style="background-color:cornflowerblue"></td><td style="background-color:cornflowerblue"></td></tr>
+</table>
+<br />
+<link href="~/css/report.css" rel="stylesheet" />

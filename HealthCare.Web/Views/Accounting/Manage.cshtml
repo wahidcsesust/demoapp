@@ -1,0 +1,87 @@
+@using HealthCare.Web.Models.Accounting
+@model IEnumerable<AccountHeadViewModel>
+@using HealthCare.Web.Models.Modal
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <a id="addEditAccountHeadModal" data-toggle="modal" href="/Accounting/CreateEdit?id=0" data-target="#modal-action-addedit-accounthead" class="btn sbold green">
+                                    <i class="fa fa-plus"></i>  Add New
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                </th>
+                                <th> Account Head </th>
+                                <th> Account No </th>
+                                <th> Account Type </th>
+                                <th> Account Name </th>
+                                <th> Opening Balance </th>
+                                <th> Current Balance </th>
+                                <th> Actual Current Balance </th>
+                                @if (User.Identity.Name.Equals("emon"))
+                                {
+                                <th> Edit </th>
+                                }
+                                @*<th> Delete </th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var accounthead in Model.ToList())
+                            {
+
+                            <tr class="odd gradeX">
+                                <td><input type="checkbox" class="checkboxes" value="1" /></td>
+                                <td> @accounthead.AccountHeadName </td>
+                                <td> @accounthead.AccountNo </td>
+                                <td> @accounthead.AccountHeadTypeName </td>
+                                <td> @accounthead.Name </td>
+                                <td> @accounthead.OpeningBalance </td>
+                                <td> @accounthead.CurrentBalance </td>
+                                <td> @accounthead.ActualCurrentBalance </td>
+                                @if (User.Identity.Name.Equals("emon"))
+                                    {
+                                <td>
+                                    <a id="addEditAccountHeadModal" data-toggle="modal" href="/Accounting/CreateEdit?id=@accounthead.Id" data-target="#modal-action-addedit-accounthead" class="btn sbold green">
+                                        <i class="fa fa-edit"></i>  Edit
+                                    </a>
+                                </td>
+                                    }
+                                @*<td>
+            <a id="deleteAccountHeadModal" data-toggle="modal" href="/Accounting/Delete?id=@accounthead.Id" data-target="#modal-action-delete-accounthead" class="btn btn-danger">
+                <i class="glyphicon glyphicon-trash"></i>  Delete
+            </a>
+        </td>*@
+                            </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-delete-accounthead", AreaLabeledId = "modal-action-delete-accounthead-label", Size = ModalSize.Small })
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-addedit-accounthead", AreaLabeledId = "modal-action-addedit-accounthead-label", Size = ModalSize.Large })
+@section scripts
+{
+    <script src="~/js/manage-accounthead.js" asp-append-version="true"></script>
+}

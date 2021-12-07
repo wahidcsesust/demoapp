@@ -1,0 +1,211 @@
+﻿@{
+
+}
+<style>
+    .VuePagination nav {
+        width: 100%;
+    }
+
+    .table th, .table td {
+        padding: 0.20rem;
+        vertical-align: middle;
+        border-top: 1px solid rgba(0,0,0,0.05)
+    }
+
+    .ui-menu-item-wrapper, .ui-menu-item-wrapper {
+        color: #333333 !important;
+        text-decoration: none;
+        background-color: #ffffff !important;
+    }
+
+        .ui-menu-item-wrapper:hover, .ui-menu-item-wrapper:focus {
+            color: #fff !important;
+            text-decoration: none;
+            background-color: #f6a92a !important;
+        }
+
+    .columns {
+        padding: 2px 5px;
+        border: 1px solid #c7c7c7;
+        cursor: move;
+        margin-bottom: 3px;
+        background-color: #ececec;
+        border-radius: 3px;
+        color: #6f6b62;
+        font-weight: 500;
+        font-size: .75rem;
+    }
+
+        .columns.diabled {
+            opacity: .5;
+        }
+
+            .columns.diabled:hover {
+                opacity: 1;
+            }
+</style>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<div id="vc_app">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="btn-group">
+                                    <a id="addEditDepartmentModal" @@click="AddOrUpdate('')" class="btn sbold green">
+                                        <i class="fa fa-plus"></i>  Add New
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <v-client-table :data="modelList" :columns="columns" class="table-sm table-hover" :options="options" @@row-click="onRowClick">
+                        <template slot="delete" slot-scope="props">
+                            <a v-tooltip="'Delete'" @@click="Delete(props.row.id)" href="javascript:;"><i class="glyphicon glyphicon-trash"></i></a>
+                        </template>
+                    </v-client-table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="mdl_model" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm-custom" role="document">
+            <form v-on:submit.prevent="Save" data-vv-scope="frmDepartment">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Department</h4>
+                    </div>
+                    <div class="modal-body form-horizontal">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="form-group col-6">
+                                        <label class="col-md-4 control-label">Department Name<span style="color:red">*</span></label>
+                                        <div class="col-md-7">
+                                            <input type="text" class="form-control" v-model="model.name" v-validate="'required'" name="name" placeholder="Name" autocomplete="off">
+                                            <span class="error" v-show="errors.has('frmDepartment.name')">The field is required</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
+    <script>
+        Vue.use(VueTables.ClientTable);
+        Vue.use(VeeValidate);
+        var app = new Vue({
+            el: '#vc_app',
+            data: {
+                modelList: [],
+                model: {},
+                columns: ['name', 'delete'],
+                options: {
+                    headings: {
+                        name: 'Name',
+                        delete: 'Delete'
+                    },
+                    columnsClasses: {
+                        delete: 'text-center',
+                    },
+                    perPageValues: [5, 50, 100, 500],
+                    perPage: 5,
+                    sortable: ['name'],
+                    filterable: ['name']
+                },
+            },
+            mounted: function () {
+                this._LoadModelList();
+            },
+            methods: {
+                _LoadModelList: function () {
+                    helper.get('/department/getall', null, (response) => {
+                        this.modelList = response;
+                    });
+                },
+                onRowClick: function (event) {
+                    const element = event.event.srcElement;
+                    let clsName = element.className;
+                    if (clsName !== "glyphicon glyphicon-trash") {
+                        this.AddOrUpdate(event.row.id);
+                    }
+                },
+                AddOrUpdate: function (id) {
+                    if (!helper.isNullOrEmpty(id)) {
+                        helper.get('/department/get', { id: id }, (response) => {
+                            this.model = response;
+                            $('#mdl_model').modal('show');
+                        });
+                    }
+                    else {
+                        this.model = {
+                            id: '',
+                            name: ''
+                        };
+                        $('#mdl_model').modal('show');
+                    }
+                },
+                Save: function () {
+                    this.$validator.validateAll('frmDepartment').then((result) => {
+                        if (result) {
+                            helper.post('/department/Save', this.model, (response) => {
+                                if (helper.isSuccess(response)) {
+                                    let index = this.modelList.findIndex(function (v, i) {
+                                        return v.id == response.data.id;
+                                    });
+
+                                    if (index >= 0) {
+                                        this.modelList[index] = response.data
+                                    }
+                                    else {
+                                        this.modelList.unshift(response.data);
+                                    }
+                                    $('#mdl_model').modal('hide');
+                                }
+                            });
+                        }
+
+                    }).catch(() => {
+
+                    });
+                },
+                Delete: function (id) {
+                    helper.confirmation('Are you sure?', () => {
+                        if (!helper.isNullOrEmpty(id)) {
+                            helper.post('/department/delete', { id: id }, (response) => {
+                                if (helper.isSuccess(response)) {
+                                    let index = this.modelList.findIndex(function (v, i) {
+                                        return v.id == id;
+                                    });
+                                    if (index >= 0) {
+                                        this.modelList.splice(index, 1);
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            $.notify('Please select an item', 'error');
+                        }
+                    });
+                },
+            }
+        });
+
+    </script>
+}

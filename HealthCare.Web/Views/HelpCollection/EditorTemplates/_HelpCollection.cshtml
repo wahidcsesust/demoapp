@@ -1,0 +1,239 @@
+﻿
+@using System
+@model HealthCare.Web.Models.HelpCollectionViewModel
+@using HealthCare.Web.Models.Modal
+@using HealthCare.Data.Models
+<form method="post" asp-action="Save" role="form" id="frmHelpCollection" enctype="multipart/form-data">
+
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Help Form" })
+
+    <div class="modal-body form-horizontal">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Subject</label>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Subject, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Subject", @autofocus = "autofocus" })
+                        <span asp-validation-for="Subject" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Applicant Name</label>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Applicant Name", @autofocus = "autofocus" })
+                        <span asp-validation-for="Name" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Profession</label>
+                    <div class="col-md-8">
+                        <select asp-for="ProfessionEnum" asp-items="Html.GetEnumSelectList<ProfessionEnum>()" class="form-control">
+                        </select>
+                        <span asp-validation-for="ProfessionEnum" class="text-danger" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 radio-list">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Father Name</label>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Father Name", @autofocus = "autofocus" })
+                        <span asp-validation-for="FatherName" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Mother Name</label>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.MotherName, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Mother Name", @autofocus = "autofocus" })
+                        <span asp-validation-for="MotherName" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Mobile No</label>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Mobile Number", @autofocus = "autofocus" })
+                        <span asp-validation-for="MobileNumber" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Address</label>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Address", @autofocus = "autofocus" })
+                        <span asp-validation-for="Address" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-4">Gender</label>
+                    <div class="col-md-8">
+                        @if (Model.Gender != null && Model.Gender.Equals("Female"))
+                        {
+                            <label class="radio-inline">
+                                <input type="radio" name="Gender" id="optionsMale" value="Male"> Male
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="Gender" id="optionsFemale" value="Female" checked> Female
+                            </label>
+                        }
+                        else
+                        {
+                            <label class="radio-inline">
+                                <input type="radio" name="Gender" id="optionsMale" value="Male" checked> Male
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="Gender" id="optionsFemale" value="Female"> Female
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Age</label>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Age, new { @class = "form-control placeholder-no-fix", @type = "number", @autocomplete = "off", @placeholder = "Age", @autofocus = "autofocus" })
+                        <span asp-validation-for="Age" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">National ID No.</label>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.NationalIdNo, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "National ID No", @autofocus = "autofocus" })
+                        <span asp-validation-for="NationalIdNo" class="help-block text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Religion</label>
+                    <div class="col-md-8">
+                        <select asp-for="ReligionEnum" asp-items="Html.GetEnumSelectList<ReligionEnum>()" class="form-control">
+                        </select>
+                        <span asp-validation-for="ReligionEnum" class="text-danger" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Ref. Name</label>
+                    <div class="col-md-8">
+                        <select asp-for="MemberId" asp-items="@Model.Members" class="form-control select2">
+                            <option>Please select</option>
+                        </select>
+                        <span asp-validation-for="MemberId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-4">Date Of Help</label>
+                    <div class="col-md-8">
+                        <div id="dateofbirth" class="input-group date date-picker" data-provide="datepicker" data-date-format="dd-mm-yyyy">
+                            @Html.TextBoxFor(m => m.DateOfHelpStr, new { @class = "form-control", @readonly = "readonly" })
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="DateOfHelpStr" class="text-danger" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Save" })
+</form>
+<script type="text/javascript">
+    $('#frmHelpCollection').on('submit', function (e) {
+        debugger;
+        var name = $('#Name');
+        if (!name.val()) {
+            name.closest('.form-group').removeClass('has-success').addClass('has-error');
+            e.preventDefault();
+        } else {
+            name.closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+        var subject = $('#Subject');
+        if (!subject.val()) {
+            subject.closest('.form-group').removeClass('has-success').addClass('has-error');
+            e.preventDefault();
+        } else {
+            subject.closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+        debugger;
+        var memberId = $('#MemberId');
+        if (memberId.val() === "Please select") {
+            memberId.closest('.form-group').removeClass('has-success').addClass('has-error');
+            e.preventDefault();
+        } else {
+            memberId.closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+    });
+    @*$('#btnSaveMember').click(function () {
+        var form = document.getElementById('frmPatient');
+        var formData = new FormData(form);
+        var formObj = $("#frmPatient");
+        var formURL = formObj.attr("action");
+        $.ajax({
+            url: formURL,
+            type: 'POST',
+            data: formData,
+            mimeType: "multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data, textStatus, jqXHR) {
+                $('#modal-action-addedit-members').modal('hide');
+                populatePatient(data);
+            }
+        });
+    });
+
+    function populatePatient(patientId) {
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PopulatePatientsDropDown", "Patients")',
+            type: "GET",
+            dataType: "json",
+            data: { patientId: patientId },
+            success: function (data) {
+                $("#PatientId").empty();
+                $("#PatientId").append("<option value=''>Please select</option>");
+
+                $.each(data, function (index, item) {
+                    $("#PatientId").append("<option value=" + item.value + ">" + item.text + "</option>");
+                });
+                $("#PatientId").val(patientId);
+            }
+        });
+    }*@
+</script>

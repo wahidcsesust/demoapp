@@ -1,0 +1,17 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model string
+@using HealthCare.Web.Models.Modal
+
+<form asp-action="Delete" role="form">
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Delete Patient Test" })
+
+    <div class="modal-body form-horizontal">
+        Are you want to delete @Model?
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Delete" })
+</form>

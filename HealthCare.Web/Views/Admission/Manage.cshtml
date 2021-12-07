@@ -1,0 +1,59 @@
+﻿
+@using System
+@model IEnumerable<HealthCare.Web.Models.Admission.AdmissionViewModel>
+@using HealthCare.Web.Models.Modal
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="btn-group">
+                                <a id="sample_editable_1_new" class="btn sbold green" asp-area="" asp-controller="Admission" asp-action="CreateEdit" asp-route-id="0">
+                                    Add New<i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                </th>
+                                <th> SL </th>
+                                <th> Patient </th>
+                                <th> Admission Date </th>
+                                <th> Admission Time </th>
+                                <th> Bed No </th>
+                                <th> Edit </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var addmission in Model.ToList())
+                            {
+
+                            <tr class="odd gradeX">
+                                <td><input type="checkbox" class="checkboxes" value="1" /></td>
+                                <td> @addmission.Id </td>
+                                <td> @addmission.PatientName </td>
+                                <td> @addmission.AdmissionDateString </td>
+                                <td> @addmission.AdmissionTime </td>
+                                <td> @addmission.BedNo </td>
+                                <td><a class="btn btn-success edit" asp-action="CreateEdit" asp-route-id="@addmission.Id"> <i class="glyphicon glyphicon-edit"></i>  Edit </a></td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>

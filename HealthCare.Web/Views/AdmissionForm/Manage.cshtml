@@ -1,0 +1,117 @@
+﻿@using System
+@using HealthCare.Web.Models.Modal
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Help Center
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+            <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+            <a href="javascript:;" class="reload"> </a>
+            <a href="javascript:;" class="remove"> </a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <br />
+        <div class="row">
+            <div class="col-md-3" style="text-align:right">
+                <div class="btn-group">
+                    <a target="_blank" id="printInvoice" Onclick="PrintHelpForm()" class="btn sbold green-haze">
+                        <i class="fa fa-print"></i> Help Form
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3" style="text-align:right">
+                <div class="btn-group">
+                    <a target="_blank" id="printInvoice" Onclick="PrintMemberForm()" class="btn sbold green-haze">
+                        <i class="fa fa-print"></i> Member Form
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3" style="text-align:right">
+                <div class="btn-group">
+                    <a target="_blank" id="printInvoice" Onclick="PrintCouncilForm()" class="btn sbold green-haze">
+                        <i class="fa fa-print"></i> Advisor Form
+                    </a>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="clearfix"></div>
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-member-report", AreaLabeledId = "modal-action-member-report-label", Size = ModalSize.Small })
+@section scripts
+{
+
+}
+<script type="text/javascript">
+
+    function PrintCouncilForm() {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("PrintCouncilForm", "Member")',
+                type: "GET",
+                data: {
+                    "memberId": 0
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    var printWindow = window.open('', '', 'height=900,width=1400');
+                    printWindow.document.write('<!DOCTYPE html><html><head><title>আল্লাহ্ সর্বশক্তিমান</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(data.html);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
+            });
+    }
+    function PrintMemberForm() {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("PrintMemberForm", "Member")',
+                type: "GET",
+                data: {
+                    "memberId": 0
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    var printWindow = window.open('', '', 'height=900,width=1400');
+                    printWindow.document.write('<!DOCTYPE html><html><head><title>আল্লাহ্ সর্বশক্তিমান</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(data.html);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
+            });
+        }
+    function PrintHelpForm() {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("PrintHelpForm", "Member")',
+                type: "GET",
+                data: {
+                    "memberId": 0
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    var printWindow = window.open('', '', 'height=900,width=1400');
+                    printWindow.document.write('<!DOCTYPE html><html><head><title>আল্লাহ্ সর্বশক্তিমান</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(data.html);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
+            });
+        }
+</script>

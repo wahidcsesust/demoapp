@@ -1,0 +1,99 @@
+﻿@using System
+@*﻿@model IEnumerable<HealthCare.Web.Models.Collection.CollectionViewModel>*@
+@model IEnumerable<HealthCare.Web.Models.Collection.CollectionViewModel>
+@using HealthCare.Web.Models.Modal
+
+<form asp-action="Delete" role="form">
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Member Collection List" })
+    <div class="modal-body form-horizontal">
+        @if (Model.Count() > 0)
+        {
+        <address>
+            <strong>Reg No       :</strong> @ViewData["RegNo"] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <strong>Name         :</strong> @ViewData["Name"] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <strong>Total Amount :</strong> @ViewData["TotalAmount"] Tk.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <strong>Cash Back Amount :</strong> @ViewData["CashBackAmount"] Tk.<br />
+        </address>
+            @*<a class="btn btn-lg blue hidden-print margin-bottom-5" onclick="javascript:window.print();">
+                Print
+                <i class="fa fa-print"></i>
+            </a>*@
+            <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                <thead>
+                    <tr>
+                        <th> Serial No </th>
+                        <th> Collection Date </th>
+                        <th> Amount </th>
+                        <th> Delete </th>
+                    </tr>
+                </thead>
+                <tbody>                    
+                    @{ 
+                        var serialNo = 0;
+                        var isMainBody = false;
+                        var className = string.Empty;
+                    }
+                    @foreach (var collection in Model.ToList())
+                    {
+                        isMainBody = collection.IsMainbody;
+                        if (isMainBody)
+                        {
+                            className = "custom-font-green";
+                        }
+                        serialNo++;
+                        <tr class="odd gradeX">
+                            <td class="@className"> @serialNo </td>    
+                            <td class="@className"> @collection.DateOfCollection </td>                        
+                            <td class="@className"> @collection.Amount </td>
+                            <td>
+                                <button class="btn btn-danger"  type="button" onclick="DeleteCollection($(this).closest('tr'),@collection.Id, @ViewData["IsMainBody"])"><i class="glyphicon glyphicon-trash"></i> Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    <div class="modal-footer">
+        <button data-dismiss="modal" id="btn-cancel" class="btn btn-default" type="button">Close</button>
+    </div>
+</form>
+<script type="text/javascript">
+    function DeleteCollection(row, collectionId, isMainBody) {
+        debugger;
+        bootbox.confirm({
+            message: "Are you sure?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        cache: false,
+                        url: '@Url.Action("DeleteCollection", "Collection")',
+                        type: "GET",
+                        data: {
+                            "id": collectionId,
+                            "isMainBody": isMainBody
+                        },
+                        dataType: "json",
+                        async:false,
+                        success: function (data) {
+                            if (data.result) {
+                                $(row).remove();
+                                toastr.success("Notification : Collection has been deleted");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>

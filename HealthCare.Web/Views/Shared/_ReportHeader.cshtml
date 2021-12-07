@@ -1,0 +1,33 @@
+﻿@model HealthCare.Web.Models.Report.ReportHeader
+
+<tr>
+    <td rowspan="2">
+        <img src="~/images/logo-izmks-1.png" style="width: 150px; height: 150px;" />
+    </td>
+    <td style="text-align:center;font-size:small">বিসমিল্লাহির রাহমানির রাহীম</td>
+    <td rowspan="2">
+        @*<img src="~/images/passport-size.png" alt="" style="width: 150px;height: 150px;" />*@
+        @if (Model.ImageName != null)
+        {
+            <img src="~/uploads/img/@Model.ImageName" alt="" style="width: 150px; height: 150px;" />
+        }
+        else
+        {
+            <img src="~/images/passport-size.png" alt="" style=" width: 150px; height: 150px;" />
+        }
+    </td>
+</tr>
+<tr>
+    <td style="text-align:center;">
+        <span style="font-size: small; color:forestgreen">
+            অসহায় ও দরিদ্র মানুষের সেবায় নিয়োজিত...
+        </span>
+        <span style="font-weight: bold; color: palevioletred; font-size:large"> <br />ইসলামপুর যুব মানব কল্যাণ সংগঠন - ২০২১ </span><br />
+        <span style="font-size: small">
+            <br />ইসলামপুর পাঁচতলা মোড়, বগুড়া সদর, বগুড়া।
+        </span>
+    </td>
+</tr>
+<tr>
+    <td colspan="3" style="text-align:center; font-weight:bold">@Model.Heading</td>
+</tr>

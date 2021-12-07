@@ -1,0 +1,69 @@
+﻿@model IEnumerable<HealthCare.Web.Models.Report.ReportViewModel>
+<table>
+    <tbody>
+        @*@Html.Partial("_ReportHeader", new HealthCare.Web.Models.Report.ReportHeader { Heading = "সদস্যের তালিকা" })*@
+        <tr>
+            <td rowspan="2">
+                <img src="~/images/logo-izmks-1.png" style="width: 150px; height: 150px;" />
+            </td>
+            <td style="text-align:center;font-size:small">বিসমিল্লাহির রাহমানির রাহীম</td>
+            <td rowspan="2">
+                <img src="~/images/logo-izmks-1.png" style="width: 150px; height: 150px;" />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center;">
+                <span style="font-size: small; color:forestgreen">
+                    অসহায় ও দরিদ্র মানুষের সেবায় নিয়োজিত...
+                </span>
+                <span style="font-weight: bold; color: palevioletred; font-size:large"> <br />ইসলামপুর যুব মানব কল্যাণ সংগঠন - ২০২১ </span><br />
+                <span style="font-size: small">
+                    <br />ইসলামপুর পাঁচতলা মোড়, বগুড়া সদর, বগুড়া।
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align:center; font-weight:bold">প্রতিদিনের কালেকশন</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="font-weight:bold">মোট জমা</td>
+            <td style="font-weight:bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td style="font-weight:bold">তারিখ </td>
+            <td style="font-weight:bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+@if (Model.Count() > 0)
+{
+    <table style="font-size:small">
+        <thead>
+            <tr>
+                <th> নং </th>
+                <th> সদস্যের নাম </th>
+                <th> পাড়া </th>
+                <th> জমার ধরণ </th>
+                <th> টাকা </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 1; i<=24; i++)
+            {
+                <tr>
+                    <td> @i </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<link href="~/css/report.css" rel="stylesheet" />
+

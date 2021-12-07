@@ -1,0 +1,70 @@
+﻿
+@using System
+@model IList<HealthCare.Web.Models.TestCategory.TestCategoryViewModel>
+@using HealthCare.Web.Models.Modal
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <a id="addEditTestCategoryModal" data-toggle="modal" asp-action="CreateEdit" asp-route-id="0" data-target="#modal-action-addedit-testcategory" class="btn sbold green">
+                                    <i class="fa fa-plus"></i>  Add New
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                </th>
+                                <th> Category Name </th>
+                                <th> No Of Medical Tests </th>
+                                <th> Edit </th>
+                                <th> Delete </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var testCategory in Model.ToList())
+                            {
+
+                            <tr class="odd gradeX">
+                                <td><input type="checkbox" class="checkboxes" value="1" /></td>
+                                <td> @testCategory.Name </td>
+                                <td> @testCategory.NoOfMedicalTests </td>
+                                <td>
+                                    <a id="addEditTestCategoryModal" data-toggle="modal" asp-action="CreateEdit" asp-route-id="@testCategory.Id" data-target="#modal-action-addedit-testcategory" class="btn sbold green">
+                                        <i class="fa fa-edit"></i>  Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <a id="deleteTestCategoryModal" data-toggle="modal" asp-action="Delete" asp-route-id="@testCategory.Id" data-target="#modal-action-delete-testcategory" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-trash"></i>  Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-delete-testcategory", AreaLabeledId = "modal-action-delete-testcategory-label", Size = ModalSize.Small })
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-addedit-testcategory", AreaLabeledId = "modal-action-addedit-testcategory-label", Size = ModalSize.Small })
+@section scripts
+{
+    <script src="~/js/testcategory-manage.js" asp-append-version="true"></script>
+}

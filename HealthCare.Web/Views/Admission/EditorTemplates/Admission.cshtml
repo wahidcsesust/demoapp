@@ -1,0 +1,711 @@
+﻿@model HealthCare.Web.Models.Admission.AdmissionViewModel
+@using HealthCare.Web.Models.Modal
+
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <span class="caption-subject font-green-sharp bold uppercase"> Admission</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" id="frmAdmission" method="post" asp-controller="Admission" asp-action="Save">
+                    <div class="form-body">
+                        @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                        @Html.TextBoxFor(m => m.DueAmountHide, new { @class = "hidden" })
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Patient</label>
+                                    <select asp-for="PatientId" asp-items="@Model.Patients" class="form-control select2">
+                                        <option>Please select</option>
+                                    </select>
+                                    <span asp-validation-for="PatientId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="margin-top:24px;margin-left:-25px;">
+                                <a id="addEditPatientsModal" data-toggle="modal" onclick="AddPatient()" href="#" data-target="#modal-action-addedit-patients" class="btn btn-icon-only green">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <a id="addEditPatientsModal" data-toggle="modal" onclick="EditPatient()" href="#" data-target="#modal-action-addedit-patients" class="btn btn-icon-only yellow">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a id="deletePatientsModal" data-toggle="modal" onclick="DeletePatient()" href="#" data-target="#modal-action-delete-patients" class="btn btn-icon-only red">
+                                    <i class="fa fa-remove"></i>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Ref. Doctor</label>
+                                    <select asp-for="DoctorId" asp-items="@Model.Doctors" class="form-control select2">
+                                        <option value="0">Please select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Admission Date</label>
+                                    <div class="input-group input-medium date date-picker date-picker-width" data-date-format="dd-mm-yyyy">
+                                        @Html.TextBoxFor(m => m.AdmissionDateString, new { @class = "form-control", @readonly = "readonly" })
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Admission Time</label>
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(m => m.AdmissionTime, new { @class = "form-control timepicker timepicker-no-seconds" })
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-clock-o"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Bed No</label>
+                                    <select asp-for="BedId" asp-items="@Model.Beds" class="form-control select2">
+                                        <option value="0">Please select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>C/O</label>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.CareOf, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions right">
+                        <a asp-controller="Admission" asp-action="Manage" class="btn btn-mini btn-circle grey-salsa btn-outline"><i class="glyphicon glyphicon-backward"></i> Cancel</a>
+                        <button type="button" class="btn btn-mini btn-circle green" id="btnSave"><i class="glyphicon glyphicon-saved"></i> Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <span class="caption-subject font-green-sharp bold uppercase"> Baby Note</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" id="frmBabyNote" method="post" asp-controller="Admission" asp-action="SaveBabyNote">
+                    <div class="form-body">
+                        @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Sex</label>
+                                    @Html.TextBoxFor(m => m.Sex, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <label>Weight</label>
+                                    @Html.TextBoxFor(m => m.Weight, new { @class = "form-control", @type = "number" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Apgar Score</label>
+                                    @Html.TextBoxFor(m => m.ApgarScore, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Others</label>
+                                    @Html.TextBoxFor(m => m.Others, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Blood Transfusion</label>
+                                        @Html.TextBoxFor(m => m.BloodTransfusion, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Surgeon</label>
+                                        @Html.TextBoxFor(m => m.Surgeon, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Assistant</label>
+                                        @Html.TextBoxFor(m => m.Assistant, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Anaesthesiologist</label>
+                                        @Html.TextBoxFor(m => m.Anaesthesiologist, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>AnaesthesiaType</label>
+                                        @Html.TextBoxFor(m => m.AnaesthesiaType, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                </div>
+                            </div>*@
+                    </div>
+                    @if (!Model.IsNew)
+                    {
+                        <div class="form-actions right">
+                            <button type="button" class="btn btn-circle yellow-casablanca" id="btnSaveBabyNote">Save</button>
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <span class="caption-subject font-green-sharp bold uppercase"> Operation Note</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" id="frmOperation" method="post" asp-controller="Admission" asp-action="SaveOperation">
+                    <div class="form-body">
+                        @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>OT Reg</label>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.OperationRegNo, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Name Of Operation</label>
+                                    @Html.TextBoxFor(m => m.OperationName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Operation Date</label>
+                                <div class="input-group input-medium date date-picker date-picker-width" data-date-format="dd-mm-yyyy">
+                                    @Html.TextBoxFor(m => m.OperationDateString, new { @class = "form-control", @readonly = "readonly" })
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Operation Time</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(m => m.OperationTime, new { @class = "form-control timepicker timepicker-no-seconds" })
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-clock-o"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Indication</label>
+                                    @Html.TextBoxFor(m => m.Indication, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Incision</label>
+                                    @Html.TextBoxFor(m => m.Incision, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Findings</label>
+                                    @Html.TextBoxFor(m => m.Findings, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                @if (!Model.IsNew)
+                                {
+                                    <label></label>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-circle yellow-casablanca" id="btnSaveOperation">Save</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <span class="caption-subject font-green-sharp bold uppercase"> Discharge Note</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" id="frmDischarge" method="post" asp-controller="Admission" asp-action="SaveDischarge">
+                    <div class="form-body">
+                        @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Discharge Date</label>
+                                    <div class="input-group input-medium date date-picker date-picker-width" data-date-format="dd-mm-yyyy">
+                                        @Html.TextBoxFor(m => m.DischargeDateString, new { @class = "form-control", @readonly = "readonly" })
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Discharge Time</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(m => m.DischargeTime, new { @class = "form-control timepicker timepicker-no-seconds" })
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-clock-o"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Discharge Note</label>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (!Model.IsNew)
+                    {
+                        <div class="form-actions right">
+                            <button type="button" class="btn btn-mini btn-circle grey-salsa btn-outline" href="#" id="btnDischargeCertificate">Certificate</button>
+                            <button type="button" class="btn btn-circle yellow-casablanca" id="btnSaveDischarge">Save</button>
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+@if (!Model.IsNew)
+{
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption font-red-sunglo">
+                <span class="caption-subject font-green-sharp bold uppercase"> Payment</span>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <form role="form" class="form-horizontal" id="frmPayment" method="post" asp-controller="Admission" asp-action="SavePayment">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Total</label>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form-control", @type = "number", @onchange = "TotalAmountOnChangeEvent(this)" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Less</label>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(m => m.LessAmount, new { @class = "form-control", @type = "number", @onchange = "AdmissionLessAmountOnChangeEvent(this)" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Due</label>
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(m => m.DueAmount, new { @class = "form-control", @type = "number", @disabled = "disabled" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Payment</label>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.PaidAmount, new { @class = "form-control", @type = "number", @onchange = "PaymentAmountOnChangeEvent(this)" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">&nbsp;</label>
+                                <div class="col-md-10">
+                                    <button type="button" class="btn btn-circle yellow-casablanca" id="btnSavePayment"><i class="glyphicon glyphicon-ok"></i> Save</button>
+                                    <a target="_blank" Onclick="PrintInvoice(@Model.Id)" class="btn btn-circle yellow-casablanca" id="btnPrintInvoice"><i class="glyphicon glyphicon-print"></i> Invoice</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(document).on("click", "#btnSave", function (e) {
+                e.preventDefault();
+                $("#frmAdmission").submit();
+            });
+
+        });
+
+        $(document).on("click", "#btnSaveBabyNote", function (e) {
+            e.preventDefault();
+            var admissionId = $("#Id").val();
+            $.ajax({
+                url: '@Url.Action("SaveBabyNote", "Admission")',
+                type: 'GET',
+                data: {
+                    "admissionId": admissionId,
+                    "sex": $('#Sex').val(),
+                    "weight": $('#Weight').val(),
+                    "apgarScore": $('#ApgarScore').val(),
+                    "others": $('#Others').val(),
+                },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.isResultOk) {
+                        toastr.success("Notifications : Baby Note save successfull");
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-right",
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                    }
+                }
+            });
+        });
+
+        $(document).on("click", "#btnSaveOperation", function (e) {
+            e.preventDefault();
+            //if (!$('#OperationRegNo').val()) {
+            //    toastr.warning("Warning : Please enter Operation Reg No");
+            //    return;
+            //}
+            var admissionId = $("#Id").val();
+            $.ajax({
+                url: '@Url.Action("SaveOperation", "Admission")',
+                type: 'GET',
+                data: {
+                    "admissionId": admissionId,
+                    "operationRegNo": $('#OperationRegNo').val(),
+                    "operationDateString": $('#OperationDateString').val(),
+                    "operationTime": $('#OperationTime').val(),
+                    "operationName": $('#OperationName').val(),
+                    "indication": $('#Indication').val(),
+                    "incision": $('#Incision').val(),
+                    "findings": $('#Findings').val(),
+                },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.isResultOk) {
+                        toastr.success("Notifications : Operation successfull");
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-right",
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                    }
+                }
+            });
+        });
+
+        $('#btnSavePayment').click(function () {
+            if (!$('#PaidAmount').val()) {
+                toastr.warning("Warning : Please enter payment");
+                return;
+            }
+            if (parseInt($('#DueAmount').val()) <= 0) {
+                toastr.warning("Warning : Payment done. No Due Found!");
+                return;
+            }
+            var admissionId = $("#Id").val();
+            var totalAmount = $('#TotalAmount').val();
+            var lessAmount = $('#LessAmount').val();
+            var dueAmount = $('#DueAmount').val();
+            var paidAmount = $('#PaidAmount').val();
+            var actualDue = parseInt(dueAmount) - parseInt(paidAmount);
+            $.ajax({
+                url: '@Url.Action("SaveAdmissionPayment", "Admission")',
+                type: 'GET',
+                data: {
+                    "admissionId": admissionId,
+                    "totalAmount": totalAmount,
+                    "lessAmount": lessAmount,
+                    "dueAmount": actualDue,
+                    "paidAmount": paidAmount,
+                },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    if (data.isResultOk) {
+                        $("#DueAmount").val(actualDue);
+                        $("#PaidAmount").val(0);
+                        toastr.success("Notifications : Payment Collection successfull");
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-right",
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                    }
+                }
+            });
+        });
+
+        $(document).on("click", "#btnSaveDischarge", function (e) {
+            e.preventDefault();
+            //$("#frmDischarge").submit();
+            if (!$('#DischargeDateString').val()) {
+                toastr.warning("Warning : Please enter discharge date");
+                return;
+            }
+            var admissionId = $("#Id").val();
+            var dischargeDateString = $('#DischargeDateString').val();
+            var dischargeTime = $('#DischargeTime').val();
+            var remarks = $('#Remarks').val();
+            $.ajax({
+                url: '@Url.Action("SaveDischarge", "Admission")',
+                type: 'GET',
+                data: {
+                    "admissionId": admissionId,
+                    "dischargeDateString": dischargeDateString,
+                    "dischargeTime": dischargeTime,
+                    "remarks": remarks,
+                },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.isResultOk) {
+                        toastr.success("Notifications : Discharge successfull");
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-right",
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                    }
+                }
+            });
+        });
+
+        function PrintInvoice(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("PrintAdmissionInvoice", "Admission")',
+                type: "GET",
+                data: {
+                    "admissionId": id
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    var printWindow = window.open('', '', 'height=900,width=1400');
+                    printWindow.document.write('<!DOCTYPE html><html><head><title>Invoice</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(data.html);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
+            });
+        }
+
+        function TotalAmountOnChangeEvent(data) {
+            var totalAmount = data.value;
+            $("#DueAmount").val(totalAmount);
+        }
+
+        function PaymentAmountOnChangeEvent(data) {
+            var paidAmount = data.value;
+            var dueAmount = $("#DueAmount").val();
+            if (parseInt(paidAmount) > parseInt(dueAmount)) {
+                toastr.warning("Warning : Paid amount can not be greater than due amount!");
+                $("#PaidAmount").val("0");
+                return;
+            }
+        }
+        function AdmissionLessAmountOnChangeEvent(data) {
+            debugger;
+            var lessAmount = data.value;
+            var dueAmount = $("#DueAmount").val();
+            if (parseInt(lessAmount) > parseInt(dueAmount)) {
+                toastr.warning("Warning : Less amount can not be greater than due amount!");
+                $("#LessAmount").val("0");
+                $("#DueAmount").val(dueAmount);
+                return;
+            }
+            $("#DueAmount").val(dueAmount - lessAmount);
+        }
+
+        function AddPatient() {
+            AddEditPatient(0);
+        }
+        function EditPatient() {
+            AddEditPatient($("#PatientId").val());
+        }
+        function DeletePatient() {
+            DeleteRemovePatient($("#PatientId").val());
+        }
+        function AddEditPatient(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("CreateEdit", "Patient")',
+                type: "GET",
+                data: {
+                    "id": id,
+                    "type": 'appointMent'
+                },
+                //dataType: "json",
+                //async:false,
+                success: function (html) {
+                    $('#modal-action-addedit-patients').html(html).modal('show');
+                }
+            });
+        }
+
+        function DeleteRemovePatient(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("Delete", "Patient")',
+                type: "GET",
+                data: {
+                    "id": id,
+                    "type": 'appointMent'
+                },
+                //dataType: "json",
+                //async:false,
+                success: function (html) {
+                    debugger;
+                    $('#modal-action-delete-patients').html(html).modal('show');
+                }
+            });
+        }
+    </script>
+    @*<script src="~/js/admission-detail.js"></script>*@
+}
+<style type="text/css">
+    .div-table {
+        display: table;
+        width: auto;
+        background-color: #eee;
+        border: 1px solid #666666;
+        border-spacing: 5px; /* cellspacing:poor IE support for  this */
+    }
+
+    .div-table-row {
+        display: table-row;
+        width: auto;
+        clear: both;
+    }
+
+    .div-table-col {
+        float: left; /* fix for  buggy browsers */
+        display: table-column;
+        width: 200px;
+        background-color: #ccc;
+    }
+
+    .btn-hide {
+        display: none;
+    }
+
+    .btn-show {
+        display: block;
+    }
+</style>
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-delete-patients", AreaLabeledId = "modal-action-delete-patients-label", Size = ModalSize.Small })
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-addedit-patients", AreaLabeledId = "modal-action-addedit-patients-label", Size = ModalSize.Medium })

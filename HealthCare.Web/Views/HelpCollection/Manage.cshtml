@@ -1,0 +1,136 @@
+﻿
+@using System
+@model IEnumerable<HealthCare.Web.Models.HelpCollectionViewModel>
+@using HealthCare.Web.Models.Modal
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <a id="addEditHelpCollectionModal" data-toggle="modal" href="/HelpCollection/CreateEdit?id=0" data-target="#modal-action-addedit-helpcollection" class="btn sbold green">
+                                    <i class="fa fa-plus"></i>  Add New
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                </th>
+                                <th> Help No. </th>
+                                <th> Name </th>
+                                <th> Subject </th>
+                                <th> Date </th>
+                                <th> Ref. Name </th>
+                                <th> Edit </th>
+                                <th> Print </th>
+                                <th> Delete </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var models in Model.ToList())
+                            {
+
+                                <tr class="odd gradeX">
+                                    <td><input type="checkbox" class="checkboxes" value="1" /></td>
+                                    <td> @models.SerialNo </td>
+                                    <td> @models.Name </td>
+                                    <td> @models.Subject </td>
+                                    <td> @models.DateOfHelpStr </td>
+                                    <td> @models.RefMemberName </td>
+                                    <td>
+                                        <a id="addEditHelpCollectionModal" data-toggle="modal" href="/HelpCollection/CreateEdit?id=@models.Id" data-target="#modal-action-addedit-helpcollection" class="btn sbold green">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a target="_blank" id="printInvoice" Onclick="PrintHelpCollection(@models.Id)" class="btn sbold green-haze">
+                                            <i class="fa fa-print"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a id="deleteHelpCollectionModal" data-toggle="modal" href="/HelpCollection/Delete?id=@models.Id" data-target="#modal-action-delete-helpcollection" class="btn btn-danger">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-delete-helpcollection", AreaLabeledId = "modal-action-delete-helpcollection-label", Size = ModalSize.Small })
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-addedit-helpcollection", AreaLabeledId = "modal-action-addedit-helpcollection-label", Size = ModalSize.Medium })
+@section scripts
+{
+    <script src="~/js/manage-helpcollection.js" asp-append-version="true"></script>
+}
+<script type="text/javascript">
+    function PrintMemberList() {
+        var url = window.location.pathname;
+        var id = url.substring(url.lastIndexOf('/') + 1);
+
+        var objectId = id;
+        var bloodGroupId = 0;
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PrintMemberReport", "Report")',
+            type: "GET",
+            data: {
+                "objectId": objectId,
+                "bloodGroupId": bloodGroupId
+            },
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                var printWindow = window.open('', '', 'height=900,width=1400');
+                printWindow.document.write('<!DOCTYPE html><html><head><title>আল্লাহ্ সর্বশক্তিমান</title>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write(data.html);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        });
+    }
+    function PrintHelpCollection(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("PrintHelpCollection", "HelpCollection")',
+                type: "GET",
+                data: {
+                    "helpCollectionId": id
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    var printWindow = window.open('', '', 'height=900,width=1400');
+                    printWindow.document.write('<!DOCTYPE html><html><head><title>আল্লাহ্ সর্বশক্তিমান</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(data.html);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
+            });
+    }
+</script>

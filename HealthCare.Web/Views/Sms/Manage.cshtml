@@ -1,0 +1,344 @@
+﻿@using System
+@model SmsViewModel
+@using HealthCare.Web.Models.Modal
+@using HealthCare.Web.Models.Report
+@using HealthCare.Data.Models
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <span class="caption-subject font-green-sharp bold uppercase"> Group Sms</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form class="form-horizontal" role="form" method="post" asp-controller="Sms" asp-action="SendSms">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Category</label>
+                                    <div class="col-md-8">
+                                        <select asp-for="MemberCategoryEnum" asp-items="Html.GetEnumSelectList<MemberCategoryEnum>()" class="form-control">
+                                            <option value="0">[All]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Message</label>
+                                    <div class="col-md-8">
+                                        @Html.TextAreaFor(m => m.Message, new { @style = "height: 15rem;", @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Message", @autofocus = "autofocus" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-4"> </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-12 text-right">
+                                        <button type="button" class="btn green" id="btnSendSms">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <span class="caption-subject font-green-sharp bold uppercase"> Single Sms</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form class="form-horizontal" role="form" method="post" asp-controller="Sms" asp-action="SendSingleSms">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Member</label>
+                                    <div class="col-md-8">
+                                        <select asp-for="MemberId" asp-items="@Model.Members" class="form-control select2">
+                                            <option>Please select</option>
+                                        </select>
+                                        <span asp-validation-for="MemberId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Message</label>
+                                    <div class="col-md-8">
+                                        @Html.TextAreaFor(m => m.SingleMessage, new { @style = "height: 15rem;", @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Message", @autofocus = "autofocus" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-4"> </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-12 text-right">
+                                        <button type="button" class="btn green" id="btnSingleSendSms">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="col-md-6">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <span class="caption-subject font-green-sharp bold uppercase"> Single Sms</span>
+                </div>
+            </div>
+            <form class="form-horizontal" role="form" method="post" asp-controller="Sms" asp-action="SendSingleSms">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Member</label>
+                                <div class="col-md-8">
+                                    <select asp-for="MemberId" asp-items="@Model.Members" class="form-control select2">
+                                        <option>Please select</option>
+                                    </select>
+                                    <span asp-validation-for="MemberId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Message</label>
+                                <div class="col-md-8">
+                                    @Html.TextAreaFor(m => m.Message, new { @style = "height: 15rem;", @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Message", @autofocus = "autofocus" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-4"> </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-12 text-right">
+                                    <button type="button" class="btn green" id="btnSingleSendSms">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>*@
+</div>
+
+@*<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Send SMS
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+            <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+            <a href="javascript:;" class="reload"> </a>
+            <a href="javascript:;" class="remove"> </a>
+        </div>
+    </div>
+
+    <div class="portlet-body form">
+        <form class="form-horizontal" role="form" method="post" asp-controller="Sms" asp-action="Send">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Member Category</label>
+                            <div class="col-md-3">
+                                <select asp-for="MemberCategoryEnum" asp-items="Html.GetEnumSelectList<MemberCategoryEnum>()" class="form-control">
+                                    <option value="0">[All]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Message</label>
+                            <div class="col-md-6">
+                                @Html.TextAreaFor(m => m.Message, new { @style= "height: 15rem;",  @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Message", @autofocus = "autofocus" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-4"> </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-offset-6 col-md-6">
+                                <button type="button" class="btn btn-lg green" id="btnSendSms">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>*@
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+        });
+
+        $(document).on("click", "#btnSendSms", function (e) {
+            e.preventDefault();
+            var categoryId = $("#MemberCategoryEnum").val();
+            var message = $("#Message").val();
+            if (!message) {
+                toastr.warning("Warning : Please enter message");
+                return;
+            }
+            helper.confirmation('Are you sure?', () => {
+                $.ajax({
+                    url: '@Url.Action("SendSms", "Sms")',
+                    type: 'GET',
+                    data: {
+                        "categoryId": categoryId,
+                        "message": message,
+                    },
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.isResultOk) {
+                            toastr.success("Notifications : Message has sent successfully");
+                            $("#Message").val("");
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-top-right",
+                                "showDuration": "1000",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                        } else {
+                            toastr.error("Error : Message has not sent");
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-top-right",
+                                "showDuration": "1000",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+        $(document).on("click", "#btnSingleSendSms", function (e) {
+            e.preventDefault();
+            var memberId = $("#MemberId").val();
+            var message = $("#SingleMessage").val();
+            debugger;
+            if (!message) {
+                toastr.warning("Warning : Please enter message");
+                return;
+            }
+            if (memberId === "Please select") {
+                toastr.warning("Warning : Please select member");
+                return;
+            }
+            helper.confirmation('Are you sure?', () => {
+                $.ajax({
+                    url: '@Url.Action("SendSingleSms", "Sms")',
+                    type: 'GET',
+                    data: {
+                        "memberId": memberId,
+                        "message": message,
+                    },
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.isResultOk) {
+                            toastr.success("Notifications : Message has sent successfully");
+                            $("#SingleMessage").val("");
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-top-right",
+                                "showDuration": "1000",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                        } else {
+                            toastr.error("Error : Message has not sent");
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-top-right",
+                                "showDuration": "1000",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+}

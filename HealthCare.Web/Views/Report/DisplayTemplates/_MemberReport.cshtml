@@ -1,0 +1,83 @@
+﻿@model IEnumerable<HealthCare.Web.Models.Report.ReportViewModel>
+<table>
+    <tbody>
+        @*@Html.Partial("_ReportHeader", new HealthCare.Web.Models.Report.ReportHeader { Heading = "সদস্যের তালিকা" })*@
+        <tr>
+            <td rowspan="2">
+                <img src="~/images/logo-izmks-1.png" style="width: 150px; height: 150px;" />
+            </td>
+            <td style="text-align:center;font-size:small">বিসমিল্লাহির রাহমানির রাহীম</td>
+            <td rowspan="2">
+                <img src="~/images/logo-izmks-1.png" style="width: 150px; height: 150px;" />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center;">
+                <span style="font-size: small; color:forestgreen">
+                    অসহায় ও দরিদ্র মানুষের সেবায় নিয়োজিত...
+                </span>
+                <span style="font-weight: bold; color: palevioletred; font-size:large"> <br />ইসলামপুর যুব মানব কল্যাণ সংগঠন - ২০২১ </span><br />
+                <span style="font-size: small">
+                    <br />ইসলামপুর পাঁচতলা মোড়, বগুড়া সদর, বগুড়া।
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align:center; font-weight:bold">সদস্যের তালিকা</td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <tbody>
+        <tr>
+            <td style="font-weight:bold">সদস্যের শ্রেণি : @ViewData["Category"]</td>
+            <td style="font-weight:bold">পাড়া : @ViewData["AreaLocation"] </td>
+            <td style="font-weight:bold">রক্তের গ্রুপ : @ViewData["BloodGroup"]</td>
+            <td style="font-weight:bold">মোট সদস্য : @ViewData["Total"]</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+@if (Model.Count() > 0)
+    {
+<table style="font-size:small">
+    <thead>
+        <tr>
+            <th> Reg No </th>
+            <th> Name </th>
+            <th> Father Name </th>
+            <th> Age </th>
+            <th> Mobile </th>
+            <th> Blood Group </th>
+            <th> Designation </th>
+            <th> Picture </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var member in Model.ToList())
+                {
+        <tr>
+            <td> @member.RegNoView </td>
+            <td> @member.ObjectName </td>
+            <td> @member.FatherName </td>
+            <td> @member.Age </td>
+            <td> @member.MobileNumber </td>
+            <td> @member.BloodGroup </td>
+            <td> @member.Designation </td>
+            <td>
+                @if (@member.ImageName != null)
+                        {
+                <img src="~/uploads/img/@member.ImageName" alt="" style="width: 40px; height: 30px;" />
+                        }
+                        else
+                        {
+                <img src="~/images/passport-size.png" alt="" style=" width: 40px; height: 30px;" />
+                        }
+            </td>
+        </tr>
+                }
+    </tbody>
+</table>
+    }
+<link href="~/css/report.css" rel="stylesheet" />
+

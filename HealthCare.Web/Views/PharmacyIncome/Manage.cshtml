@@ -1,0 +1,90 @@
+﻿@using System
+@model IEnumerable<HealthCare.Data.Models.PharmacyIncome>
+@using HealthCare.Web.Models.Modal
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="btn-group">
+                                    <a id="addEditModal" data-toggle="modal" href="/PharmacyIncome/Create" data-target="#modal-action-addedit-pharmacyincome" class="btn sbold green">
+                                        <i class="fa fa-plus"></i>  Add New
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.Count() > 0)
+                {
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th> Invoice No </th>
+                                <th> Amount </th>
+                                <th> Sales Date </th>
+                                <th> Particulars </th>
+                                <th> Delete </th>
+                                @*<th> Print </th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var expense in Model.ToList())
+                            {
+
+                            <tr class="odd gradeX">
+                                <td> @expense.InvoiceNo </td>
+                                <td> @expense.Amount </td>
+                                <td> @expense.CollectionDateString </td>
+                                <td> @expense.Particulars </td>
+                                <td>
+                                    <a id="deleteMiscellaneousModal" data-toggle="modal" href="/PharmacyIncome/Delete?id=@expense.Id" data-target="#modal-action-delete-pharmacyincome" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-trash"></i>  Delete
+                                    </a>
+                                </td>
+                                @*<td>
+                                    <a id="printInvoice" Onclick="PrintInvoice(@expense.Id)" class="btn sbold green-haze">
+                                        <i class="fa fa-print"></i>  Invoice
+                                    </a>
+                                </td>*@
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-delete-pharmacyincome", AreaLabeledId = "modal-action-delete-pharmacyincome-label", Size = ModalSize.Small })
+    @Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-addedit-pharmacyincome", AreaLabeledId = "modal-action-addedit-pharmacyincome-label", Size = ModalSize.Large })
+
+    <script type="text/javascript">
+    function PrintInvoice(id) {
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PrintInvoice", "Expense")',
+            type: "GET",
+            data: {
+                "expenseId": id
+            },
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                var printWindow = window.open('', '', 'height=900,width=1400');
+                printWindow.document.write('<!DOCTYPE html><html><head><title>Voucher Bill</title>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write(data.html);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        });
+    }
+    </script>

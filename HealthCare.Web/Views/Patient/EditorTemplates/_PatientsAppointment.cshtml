@@ -1,0 +1,160 @@
+﻿
+@using System
+@model HealthCare.Web.Models.Patients.PatientsViewModel
+@using HealthCare.Web.Models.Modal
+@using HealthCare.Data.Models
+<div class="modal-dialog modal-md-custom">
+    <div class="modal-content">
+        <form asp-action="SavePatient" role="form" id="frmPatient">
+
+            @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Patients" })
+
+            <div class="modal-body form-horizontal">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Patient Name</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Patient Name", @autofocus = "autofocus" })
+                                <span asp-validation-for="Name" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Age</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Age, new { @class = "form-control placeholder-no-fix", @type = "number", @autocomplete = "off", @placeholder = "Age", @autofocus = "autofocus" })
+                                <span asp-validation-for="Age" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 radio-list">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Gender</label>
+                            <div class="col-md-9">
+                                @if (Model.Gender != null && Model.Gender.Equals("Female"))
+                                {
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Gender" id="optionsMale" value="Male"> Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Gender" id="optionsFemale" value="Female" checked> Female
+                                    </label>
+                                }
+                                else
+                                {
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Gender" id="optionsMale" value="Male" checked> Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Gender" id="optionsFemale" value="Female"> Female
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        @*<div class="form-group">
+                            <label class="control-label col-md-3">Date Of Birth</label>
+                            <div class="col-md-9">
+                                <div id="dateofbirth" class="input-group date date-picker" data-provide="datepicker" data-date-format="mm/dd/yyyy">
+                                    @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", @readonly = "readonly" })
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="DateOfBirth" class="text-danger" />
+                            </div>
+                        </div>*@
+                        
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Blood Group</label>
+                            <div class="col-md-9">
+                                <select asp-for="BloodGroupEnum" asp-items="Html.GetEnumSelectList<BloodGroupEnum>()" class="form-control">
+                                    @*<option value="">Please select</option>*@
+                                </select>
+                                <span asp-validation-for="BloodGroupEnum" class="text-danger" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Mobile Number</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Mobile Number", @autofocus = "autofocus" })
+                                <span asp-validation-for="MobileNumber" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Address</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Address", @autofocus = "autofocus" })
+                                <span asp-validation-for="Address" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (@Model.ModalType.Equals("patient"))
+            {
+                @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Save" })
+            }
+            else
+            {
+                <div class="modal-footer">
+                    <button data-dismiss="modal" id="btnCancel" class="btn btn-default" type="button">Cancel</button>
+                    <button class="btn btn-success" id="btnSavePatient" type="button">Save</button>
+                </div>
+            }
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#btnSavePatient').click(function () {
+        var form = document.getElementById('frmPatient');
+        var formData = new FormData(form);
+        var formObj = $("#frmPatient");
+        var formURL = formObj.attr("action");
+        $.ajax({
+            url: formURL,
+            type: 'POST',
+            data: formData,
+            mimeType: "multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data, textStatus, jqXHR) {
+                $('#modal-action-addedit-patients').modal('hide');
+                populatePatient(data);
+            }
+        });
+    });
+
+    function populatePatient(patientId) {
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PopulatePatientsDropDown", "Patient")',
+            type: "GET",
+            dataType: "json",
+            data: { patientId: patientId },
+            success: function (data) {
+                $("#PatientId").empty();
+                $("#PatientId").append("<option value=''>Please select</option>");
+
+                $.each(data, function (index, item) {
+                    $("#PatientId").append("<option value=" + item.value + ">" + item.text + "</option>").trigger('change');
+                });
+                $("#PatientId").val(patientId).trigger('change');
+            }
+        });
+    }
+</script>

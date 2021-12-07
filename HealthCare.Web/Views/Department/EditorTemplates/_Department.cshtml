@@ -1,0 +1,38 @@
+
+@using System
+@model HealthCare.Web.Models.Department.DepartmentViewModel
+@using HealthCare.Web.Models.Modal
+
+<form method="post" asp-action="Save" role="form" id="frmDepartment" enctype="multipart/form-data">
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Department" })
+
+    <div class="modal-body form-horizontal">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Department Name</label>
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Department Name", @autofocus = "autofocus" })
+                        <span asp-validation-for="Name" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Save" })
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    $('#frmDepartment').on('submit', function (e) {
+        var name = $('#Name');
+        if (!name.val()) {
+            name.closest('.form-group').removeClass('has-success').addClass('has-error');
+            e.preventDefault();
+        } else {
+            name.closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+    });
+</script>

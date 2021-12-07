@@ -1,0 +1,114 @@
+﻿@{
+    //Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Prescription</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        .remove-border {
+            border: 0px solid white;
+        }
+    </style>
+</head>
+<body>
+    @*<table>
+        <tbody>
+            <tr>
+                <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+                <td style="text-align:center">Health Care Centre</td>
+                <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+            </tr>
+            <tr>
+                <td style="text-align:center">Prescription</td>
+            </tr>
+        </tbody>
+    </table>*@
+    <table>
+        <tbody>
+            <tr>
+                <td rowspan="2">
+                    @ViewData["DoctorName"]<br />
+                    @ViewData["DoctorDegree"]<br />
+                    @ViewData["DoctorDepartment"]
+                </td>
+                <td style="text-align:center"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 280px;height: 200px;" /></td>
+                <td rowspan="2">
+                    সিরিয়ালের জন্যঃ  ০১৭৮১-২০৫১৫১<br />
+                    চারমাথা মোড়, বটতলা বাসস্ট্যান্ড,<br />
+                    সৈয়দ আহম্মদ কলেজ<br />
+                    সোনাতলা, বগুড়া ।<br />
+                    মোবাইলঃ ০১৭৫১-৬৫০৬০৯,<br />০১৭৩৩-২৬৬৩৭২
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:center">Health Care Centre</td>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <tr>
+            <td colspan="2">Patient Name : @ViewData["PatientName"]</td>
+
+            <td colspan="2">Age : @ViewData["PatientAge"]</td>
+
+            <td colspan="2">Sex : @ViewData["PatientSex"]</td>
+
+            <td colspan="2">Date : @ViewData["AppointmentDate"]</td>
+        </tr>
+    </table>
+    <table style="height: 500px">
+        <tr>
+            <td>C/C</td>
+            <td class="remove-border"><i>Rx</i></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="remove-border"><i></i></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="remove-border"><i></i></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="remove-border"><i></i></td>
+            <td class="remove-border"></td>
+            <td class="remove-border"></td>
+            <td class="remove-border"></td>
+            <td class="remove-border"></td>
+            <td class="remove-border"></td>
+            <td class="remove-border"></td>
+            <td class="remove-border"></td>
+            <td class="remove-border"></td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td colspan="8" style="text-align: center">.................. দিন পর দেখা করবেন.................. পরীক্ষার রিপোর্ট সহ</td>
+        </tr>
+        <tr>
+            <td colspan="8" style="text-align: center;font-weight: bold">বিঃ দ্রঃ প্রতিবার সাক্ষাতের সময় ব্যবস্থাপত্র এবং প্রয়োজনীয় কাগজপত্র সঙ্গে আনবেন</td>
+        </tr>
+        <tr style="background-color: lightgray">
+            <td colspan="3" style="font-weight: bold">নিজে সুস্থ্য থাকুন</td>
+            <td colspan="3" style="text-align: right;font-weight: bold">অপরকে সুস্থ্য থাকার পরামর্শ দিন</td>
+        </tr>
+    </table>
+</body>
+</html>

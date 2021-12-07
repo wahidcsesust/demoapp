@@ -1,0 +1,39 @@
+﻿@model IEnumerable<HealthCare.Web.Models.Report.ReportViewModel>
+
+<table>
+    <tbody>
+        <tr>
+            <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+            <td style="text-align:center">HEALTH CARE CENTRE - @DateTime.Now.Year</td>
+            <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+        </tr>
+        <tr>
+            <td style="text-align:center">Transaction Report</td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <tr>
+        <td colspan="4">Doctor Visit : @ViewData["DoctorVisit"] Tk.</td>
+
+        <td colspan="2">Medical Test : @ViewData["MedicalTest"] Tk.</td>
+    </tr>
+</table>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    .remove-border {
+        border: 0px solid white;
+    }
+</style>
+

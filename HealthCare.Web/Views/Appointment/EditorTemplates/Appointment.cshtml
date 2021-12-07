@@ -1,0 +1,430 @@
+﻿@using System
+@model HealthCare.Web.Models.Appointment.AppointmentViewModel
+@using HealthCare.Web.Models.Modal
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Appointment Setup
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+            <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+            <a href="javascript:;" class="reload"> </a>
+            <a href="javascript:;" class="remove"> </a>
+        </div>
+    </div>
+
+    <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <form class="form-horizontal" role="form" method="post" asp-controller="Appointment" asp-action="Save">
+            <div class="form-body">
+                @*<h3 class="form-section">Appointment Information</h3>*@
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Serial No</label>
+                            <div class="col-md-9">
+                                @Html.HiddenFor(m => m.Id, new { @class = "hidden" })
+                                @Html.TextBoxFor(m => m.SerialNoView, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Serial No", @autofocus = "autofocus", @disabled = "disabled" })
+                                <span asp-validation-for="SerialNo" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.DepartmentName, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-9">
+                                <select asp-for="DepartmentId" asp-items="@Model.Departments" class="form-control">
+                                    <option>Please select</option>
+                                </select>
+                                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Doctor</label>
+                            <div class="col-md-9">
+                                <select asp-for="DoctorId" asp-items="@Model.Doctors" class="form-control select2">
+                                    <option>Please select</option>
+                                </select>
+                                <span asp-validation-for="DoctorId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Patient</label>
+                            <div class="col-md-5">
+                                <select asp-for="PatientId" asp-items="@Model.Patients" class="form-control select2">
+                                    <option value="0">Please select</option>
+                                </select>
+                                <span asp-validation-for="PatientId" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="addEditPatientsModal" data-toggle="modal" onclick="AddPatient()" href="#" data-target="#modal-action-addedit-patients" class="btn btn-icon-only green">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <a id="addEditPatientsModal" data-toggle="modal" onclick="EditPatient()" href="#" data-target="#modal-action-addedit-patients" class="btn btn-icon-only yellow">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a id="deletePatientsModal" data-toggle="modal" onclick="DeletePatient()" href="#" data-target="#modal-action-delete-patients" class="btn btn-icon-only red">
+                                    <i class="fa fa-remove"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Appointment Date</label>
+                            <div class="col-md-9">
+                                <div class="input-group input-medium date date-picker date-picker-width" data-date-format="dd-mm-yyyy">
+                                    @Html.TextBoxFor(m => m.AppointmentDateString, new { @class = "form-control", @readonly = "readonly" })
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Visit</label>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(m => m.VisitAmount, new { @class = "form-control placeholder-no-fix", @type = "number", @autocomplete = "off", @placeholder = "Visit", @autofocus = "autofocus" })
+                                <span asp-validation-for="VisitAmount" class="help-block text-danger"></span>
+                            </div>
+                            @if (@Model.Id != 0)
+                            {
+                                <div class="col-md-4">
+                                    <a target="_blank" id="printInvoice" Onclick="PrintPrescription(@Model.Id)" class="btn sbold green-haze">
+                                        <i class="fa fa-print"></i>  Prescription
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Remarks</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Remarks", @autofocus = "autofocus" })
+                                <span asp-validation-for="Remarks" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+                <hr>
+                @if (@Model.Id != 0)
+                {
+                    <h3 class="mt-repeater-title">Doctor Visit Payment</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-md-6 control-label">Visit Amount</label>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.VisitAmount, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @autofocus = "autofocus", @disabled = "disabled" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-md-6 control-label">Due Amount</label>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.DueAmount, new { @class = "form-control", @type = "number", @disabled = "disabled" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-md-6 control-label">Payment</label>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.PaidAmount, new { @class = "form-control", @type = "number", @onchange = "AppPaidAmountOnChangeEvent(this)" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">&nbsp;</label>
+                                <div class="col-md-10">
+                                    <button type="button" class="btn btn-circle yellow-casablanca" id="btnDoctorVisitPayment"><i class="glyphicon glyphicon-ok"></i> Save</button>
+                                    <a target="_blank" Onclick="PrintInvoice(@Model.Id)" class="btn btn-circle yellow-casablanca" id="btnPrintInvoice"><i class="glyphicon glyphicon-print"></i> Invoice</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                }
+            </div>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-9"> </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn green">Save</button>
+                                <a type="button" class="btn default" asp-controller="Appointment" asp-action="Manage">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section scripts
+    {
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+        function AppPaidAmountOnChangeEvent(data) {
+            var paidAmount = data.value;
+            var dueAmount = $("#DueAmount").val();
+            if (parseInt(paidAmount) > parseInt(dueAmount)) {
+                toastr.warning("Warning : Paid amount can not be greater than due amount!");
+                $("#PaidAmount").val("0");
+                return;
+            }
+        }
+        function PrintPrescription(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("PrintPrescription", "Appointment")',
+                type: "GET",
+                data: {
+                    "appointmentId": id
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    var printWindow = window.open('', '', 'height=900,width=1400');
+                    printWindow.document.write('<!DOCTYPE html><html><head><title>Prescription</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(data.html);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
+            });
+        }
+        function PrintInvoice(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("PrintInvoice", "Appointment")',
+                type: "GET",
+                data: {
+                    "appointmentId": id
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    var printWindow = window.open('', '', 'height=900,width=1400');
+                    printWindow.document.write('<!DOCTYPE html><html><head><title>Invoice</title>');
+                    printWindow.document.write('</head><body >');
+                    printWindow.document.write(data.html);
+                    printWindow.document.write('</body></html>');
+                    printWindow.document.close();
+                    printWindow.print();
+                }
+            });
+        }
+        $('#btnDoctorVisitPayment').click(function () {
+            debugger;
+            var appointmentId = $("#Id").val();
+            var totalAmount = $('#VisitAmount').val();
+            var paidAmount = $('#PaidAmount').val();
+            if (!paidAmount) {
+                toastr.warning("Warning : Please enter paid amount");
+                return;
+            }
+
+            var dueAmount = $('#DueAmount').val();
+            if (!dueAmount) {
+                toastr.warning("Warning : Please enter due amount");
+                return;
+            }
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("CheckPaymentCollection", "Appointment")',
+                type: "GET",
+                data: {
+                    "appointmentId": appointmentId,
+                    "totalAmount": totalAmount,
+                    "paidAmount": paidAmount,
+                    "dueAmount": dueAmount
+                },
+                dataType: "json",
+                async:false,
+                success: function (data) {
+                    if (data.isResultOk) {
+                        toastr.error(data.message);
+                        return;
+                    } else {
+                        SubmitPaymentCollection(appointmentId, totalAmount, paidAmount, dueAmount);
+                    }
+                }
+            });
+        });
+
+        function SubmitPaymentCollection(appointmentId, totalAmount, paidAmount, dueAmount) {
+            debugger;
+            $.ajax({
+                url: '@Url.Action("SavePaymentCollection", "Appointment")',
+                type: 'GET',
+                data: {
+                    "appointmentId": appointmentId,
+                    "totalAmount": totalAmount,
+                    "paidAmount": paidAmount,
+                    "dueAmount": dueAmount
+                },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    if (data.isResultOk) {
+                        $("#DueAmount").val(data.dueAmount);
+                        $("#PaidAmount").val(0);
+                        //$("#btnPrintInvoice").removeClass('btn-hide');
+                        toastr.success("Notifications : Payment Collection successfull");
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-right",
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                    }
+                }
+            });
+        }
+
+        function AddPatient() {
+            AddEditPatient(0);
+        }
+        function EditPatient() {
+            AddEditPatient($("#PatientId").val());
+        }
+        function DeletePatient() {
+            DeleteRemovePatient($("#PatientId").val());
+        }
+        function AddEditPatient(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("CreateEdit", "Patient")',
+                type: "GET",
+                data: {
+                    "id": id,
+                    "type": 'appointMent'
+                },
+                //dataType: "json",
+                //async:false,
+                success: function (html) {
+                    $('#modal-action-addedit-patients').html(html).modal('show');
+                }
+            });
+        }
+
+        function DeleteRemovePatient(id) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("Delete", "Patient")',
+                type: "GET",
+                data: {
+                    "id": id,
+                    "type": 'appointMent'
+                },
+                //dataType: "json",
+                //async:false,
+                success: function (html) {
+                    debugger;
+                    $('#modal-action-delete-patients').html(html).modal('show');
+                }
+            });
+        }
+
+        $("#DepartmentId").change(function () {
+            var departmentId = $("#DepartmentId").val();
+            DepartmentChangeHandler();
+        });
+        function DepartmentChangeHandler() {
+            var selectedDepartment = $("#DepartmentId").val();
+
+            var selectedDoctor = $("#DoctorId").val();
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("PopulateDoctorListDropDown", "Appointment")',
+                type: "GET",
+                data: "departmentid=" + selectedDepartment,
+                dataType: "json",
+                async:false,
+                success: function (result) {
+                    $("#DoctorId").empty();
+                    $("#DoctorId").append("<option value=''>Please select</option>");
+
+                    $.each(result, function(index, item) {
+                        $("#DoctorId").append("<option value=" + item.value + ">" + item.text + "</option>").trigger('change');
+                    });
+
+                    $("#DoctorId").val(selectedProcedureStep);
+                }
+            });
+        }
+
+        $("#DoctorId,#AppointmentDateString").change(function () {
+            var doctorId = $("#DoctorId").val();
+            var appointmentDate = $("#AppointmentDateString").val();
+            if (appointmentDate != "" && doctorId != "") {
+                DoctorChangeHandler(doctorId, appointmentDate);
+            }
+        });
+        function DoctorChangeHandler(doctorId, appointmentDate) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("GetDoctorSerialNumber", "Appointment")',
+                type: "GET",
+                data: {
+                    "doctorId": doctorId,
+                    "appointmentDate": appointmentDate
+                },
+                dataType: "json",
+                async:false,
+                success: function (result) {
+                    $("#SerialNoView").val(result.nextSerialNo);
+                    $("#VisitAmount").val(result.visit);
+                }
+            });
+        }
+    </script>
+    <script src="~/js/manage-patients.js" asp-append-version="true"></script>
+
+    <style type="text/css">
+        .btn-hide {
+            display: none;
+        }
+
+        .btn-show {
+            display: block;
+        }
+    </style>
+}
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-delete-patients", AreaLabeledId = "modal-action-delete-patients-label", Size = ModalSize.Small })
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-addedit-patients", AreaLabeledId = "modal-action-addedit-patients-label", Size = ModalSize.Medium })

@@ -1,0 +1,433 @@
+﻿@model DashboardViewModel
+
+<h3 class="page-title">
+    ASSET
+</h3>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="dashboard-stat blue">
+            <div class="visual">
+                <i class="fa fa-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="89"></span>Petty Cash
+                </div>
+                <div class="desc"> Total : @Model.PrettyCash Tk.</div>
+            </div>
+            <a class="more" href="#">
+                Asset
+                <i class="m-icon-swapright m-icon-white"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="dashboard-stat blue">
+            <div class="visual">
+                <i class="fa fa-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="89"></span>Payment Receivable
+                </div>
+                <div class="desc"> Total : @Model.MedicalPaymentReceivable Tk.</div>
+            </div>
+            <a class="more" href="#">
+                Asset
+                <i class="m-icon-swapright m-icon-white"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+<h3 class="page-title">
+    INCOME
+</h3>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="dashboard-stat green-meadow">
+            <div class="visual">
+                <i class="fa fa-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="89"></span>Doctor Visit Income
+                </div>
+                <div class="desc"> Total : @Model.DoctorVisitIncome Tk.</div>
+            </div>
+            <a class="more" href="#">
+                INCOME
+                <i class="m-icon-swapright m-icon-white"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="dashboard-stat green-meadow">
+            <div class="visual">
+                <i class="fa fa-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="89"></span>Medical Test Income
+                </div>
+                <div class="desc"> Total : @Model.MedicalTestIncome Tk.</div>
+            </div>
+            <a class="more" href="#">
+                INCOME
+                <i class="m-icon-swapright m-icon-white"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="dashboard-stat green-meadow">
+            <div class="visual">
+                <i class="fa fa-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="89"></span>Patient Admission
+                </div>
+                <div class="desc"> Total : @Model.AdmissionIncome Tk.</div>
+            </div>
+            <a class="more" href="#">
+                INCOME
+                <i class="m-icon-swapright m-icon-white"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="dashboard-stat green-meadow">
+            <div class="visual">
+                <i class="fa fa-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="89"></span>Pharmacy Sales
+                </div>
+                <div class="desc"> Total : @Model.PharmacyIncome Tk.</div>
+            </div>
+            <a class="more" href="#">
+                INCOME
+                <i class="m-icon-swapright m-icon-white"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+<h3 class="page-title">
+    EXPENSE
+</h3>
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="dashboard-stat red">
+            <div class="visual">
+                <i class="fa fa-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="89"></span>Utility Expense
+                </div>
+                <div class="desc"> Total : @Model.UtilityExpense Tk.</div>
+            </div>
+            <a class="more" href="#">
+                EXPENSE
+                <i class="m-icon-swapright m-icon-white"></i>
+            </a>
+        </div>
+    </div>
+    @*<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="dashboard-stat red">
+            <div class="visual">
+                <i class="fa fa-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="89"></span>Less Amount Expense
+                </div>
+                <div class="desc"> Total : @Model.LessAmountExpense Tk.</div>
+            </div>
+            <a class="more" href="#">
+                Less Expense
+                <i class="m-icon-swapright m-icon-white"></i>
+            </a>
+        </div>
+    </div>*@
+</div>
+
+@*<div class="clearfix"></div>
+    <h3 class="page-title">
+        LIABILITY
+    </h3>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat yellow-gold">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Sanchay Prin. Payable
+                    </div>
+                    <div class="desc"> Total : @Model.SanchayPrincipalPayable Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    LIABILITY
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat yellow-gold">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Owners Equity
+                    </div>
+                    <div class="desc"> Total : @Model.OwnersEquity Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    LIABILITY
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat yellow-gold">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Bima Payable
+                    </div>
+                    <div class="desc"> Total : @Model.BimaPayable Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    LIABILITY
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat yellow-gold">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Sanchay Int. Payable
+                    </div>
+                    <div class="desc"> Total : @Model.SanchayInterestPayable Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    LIABILITY
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <h3 class="page-title">
+        INCOME
+    </h3>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat green-meadow">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Loan Prin. Income
+                    </div>
+                    <div class="desc"> Total : @Model.LoanPrincipalReceivableIncome Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    INCOME
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat green-meadow">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Loan Int. Income
+                    </div>
+                    <div class="desc"> Total : @Model.LoanInterestReceivableIncome Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    INCOME
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat green-meadow">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Sanchay Income
+                    </div>
+                    <div class="desc"> Total : @Model.SanchayIncome Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    INCOME
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat green-meadow">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Owners Equity
+                    </div>
+                    <div class="desc"> Total : @Model.OwnersEquityIncome Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    INCOME
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat green-meadow">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Member Book
+                    </div>
+                    <div class="desc"> Total : @Model.MemberBookIncome Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    INCOME
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat green-meadow">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Bima Income
+                    </div>
+                    <div class="desc"> Total : @Model.BimaIncome Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    INCOME
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat green-meadow">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Other Income
+                    </div>
+                    <div class="desc"> Total : @Model.OtherIncome Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    INCOME
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <h3 class="page-title">
+        EXPENSE
+    </h3>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat red">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Utility Expense
+                    </div>
+                    <div class="desc"> Total : @Model.UtilityExpense Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    EXPENSE
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat red">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>San. Prin. Cashback
+                    </div>
+                    <div class="desc"> Total : @Model.SanchayPrincipalCashback Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    EXPENSE
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat red">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>San. Int. Cashback
+                    </div>
+                    <div class="desc"> Total : @Model.SanchayInterestCashback Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    EXPENSE
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="dashboard-stat red">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></span>Loan Disburse
+                    </div>
+                    <div class="desc"> Total : @Model.LoanDisburse Tk.</div>
+                </div>
+                <a class="more" href="#">
+                    EXPENSE
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+    </div>*@

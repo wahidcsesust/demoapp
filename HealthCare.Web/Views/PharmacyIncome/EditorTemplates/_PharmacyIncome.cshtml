@@ -1,0 +1,103 @@
+﻿@using System
+@model HealthCare.Data.Models.PharmacyIncome
+@using HealthCare.Web.Models.Modal
+
+<form method="post" asp-action="Save" role="form" id="frmPharmacyIncome" enctype="multipart/form-data">
+
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Pharmacy Income" })
+
+    <div class="modal-body form-horizontal">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Invoice No<span class="required">*</span></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.InvoiceNo, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Invoice No" })
+                        <span asp-validation-for="InvoiceNo" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Date</label>
+                    <div class="controls">
+                        <div class="col-md-9">
+                            <div class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy">
+                                @Html.TextBoxFor(m => m.CollectionDateString, new { @class = "form-control", @readonly = "readonly" })
+                                <span class="input-group-btn">
+                                    <button class="btn default" type="button">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Amount<span class="required">*</span></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control placeholder-no-fix", @type = "number", @placeholder = "Amount" })
+                        <span asp-validation-for="Amount" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Particulars</label>
+                    <div class="col-md-9">
+                        @Html.TextAreaFor(m => m.Particulars, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Particulars" })
+                        <span asp-validation-for="Particulars" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Save" })
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    $('#frmExpense').on('submit', function (e) {
+        debugger;
+        var invoice = $('#InvoiceNo');
+        if (!invoice.val()) {
+            invoice.closest('.form-group').removeClass('has-success').addClass('has-error');
+            e.preventDefault();
+        } else {
+            invoice.closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("CheckInvoice", "Expense")',
+            type: "GET",
+            data: {
+                "invoiceNo": invoice.val()
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.isInvoiceNoExist) {
+                    toastr.error("Notifications : Invoice No is already exist!");
+                    invoice.closest('.form-group').removeClass('has-success').addClass('has-error');
+                    e.preventDefault();
+                } else {
+                    invoice.closest('.form-group').removeClass('has-error').addClass('has-success');
+                }
+            }
+        });
+
+        var amount = $('#Amount');
+        if (!amount.val()) {
+            amount.closest('.form-group').removeClass('has-success').addClass('has-error');
+            e.preventDefault();
+        } else {
+            amount.closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+    });
+</script>

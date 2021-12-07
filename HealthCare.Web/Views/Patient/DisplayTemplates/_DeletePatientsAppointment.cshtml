@@ -1,0 +1,60 @@
+﻿
+@model HealthCare.Web.Models.ObjectDeleteViewModel
+@using HealthCare.Web.Models.Modal
+
+<div class="modal-dialog modal-sm-custom">
+    <div class="modal-content">
+        <form asp-action="DeletePatients" role="form" id="frmDeletePatient">
+            @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Delete Patients" })
+            @Html.HiddenFor(m => m.Id)
+            <div class="modal-body form-horizontal">
+                Are you want to delete @Model.Name?
+            </div>
+            @*@Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Delete" })*@
+            <div class="modal-footer">
+                <button data-dismiss="modal" id="btnCancel" class="btn btn-default" type="button">Cancel</button>
+                <button class="btn btn-success" id="btnDeletePatient" type="button">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#btnDeletePatient').click(function () {
+        var form = document.getElementById('frmDeletePatient');
+        var formData = new FormData(form);
+        var formObj = $("#frmDeletePatient");
+        var formURL = formObj.attr("action");
+        $.ajax({
+            url: formURL,
+            type: 'POST',
+            data: formData,
+            mimeType: "multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data, textStatus, jqXHR) {
+                $('#modal-action-delete-patients').modal('hide');
+                populatePatient(0);
+            }
+        });
+    });
+
+    function populatePatient(patientId) {
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("PopulatePatientsDropDown", "Patient")',
+            type: "GET",
+            dataType: "json",
+            data: { patientId: patientId },
+            success: function (data) {
+                $("#PatientId").empty();
+                $("#PatientId").append("<option value=''>Please select</option>");
+
+                $.each(data, function (index, item) {
+                    $("#PatientId").append("<option value=" + item.value + ">" + item.text + "</option>").trigger('change');
+                });
+                //$("#PatientId").val(patientId);
+            }
+        });
+    }
+</script>

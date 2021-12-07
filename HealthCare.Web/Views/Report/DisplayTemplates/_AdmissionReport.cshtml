@@ -1,0 +1,74 @@
+﻿@model IEnumerable<HealthCare.Web.Models.Report.ReportViewModel>
+
+<table>
+    <tbody>
+        <tr>
+            <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+            <td style="text-align:center">HEALTH CARE CENTRE - @DateTime.Now.Year</td>
+            <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+        </tr>
+        <tr>
+            <td style="text-align:center">Admission Report</td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <tr>
+        <td colspan="2">Total Amount : @ViewData["TotalAmount"] Tk.</td>
+        <td colspan="2">Total Paid : @ViewData["TotalPaid"] Tk.</td>
+        <td colspan="2">Total Due : @ViewData["TotalDue"] Tk.</td>
+        <td colspan="2">Total Less : @ViewData["TotalLess"] Tk.</td>
+    </tr>
+</table>
+@if (Model.Count() > 0)
+{
+    <table>
+        <thead>
+            <tr>
+                <th> SN </th>
+                <th> Patient </th>
+                <th> Invoice Date </th>
+                <th> Amount </th>
+                <th> Paid </th>
+                <th> Due </th>
+                <th> Less </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var serialNo = 0;
+            }
+            @foreach (var appointment in Model.ToList())
+            {
+                serialNo++;
+            <tr>
+                <td> @serialNo </td>
+                <td> @appointment.PatientName </td>
+                <td> @appointment.InvoiceDateString </td>
+                <td> @appointment.Amount </td>
+                <td> @appointment.PaidAmount </td>
+                <td> @appointment.DueAmount </td>
+                <td> @appointment.LessAmount </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    .remove-border {
+        border: 0px solid white;
+    }
+</style>
+

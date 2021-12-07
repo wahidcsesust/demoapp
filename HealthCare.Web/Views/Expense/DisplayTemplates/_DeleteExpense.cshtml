@@ -1,0 +1,12 @@
+﻿@model HealthCare.Web.Models.ObjectDeleteViewModel
+@using HealthCare.Web.Models.Modal
+
+<form asp-action="Delete" role="form">
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Delete Expense" })
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Name)
+    <div class="modal-body form-horizontal">
+        Are you want to delete @Model.Name?
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Delete" })
+</form>

@@ -1,0 +1,88 @@
+﻿<table>
+    <tbody>
+        <tr>
+            <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+            <td style="text-align:center">HEALTH CARE CENTRE - @DateTime.Now.Year</td>
+            <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+        </tr>
+        <tr>
+            <td style="text-align:center">VOUCHER BILL</td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <tr>
+        <td colspan="3">Invoice No : @ViewData["InvoiceNumber"]</td>
+        <td colspan="3">Amount : @ViewData["TotalCollection"] Tk.</td>
+        <td colspan="3">Delivery Date : @ViewData["Date"]</td>
+    </tr>
+    <tr>
+        <td colspan="3">Patient Name : @ViewData["PatientName"]</td>
+        <td colspan="3">Age : @ViewData["Age"]</td>
+        <td colspan="3">Address : @ViewData["Address"]</td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <th colspan="3">Code</th>
+        <th colspan="3">Name</th>
+        <th colspan="3">Amount</th>
+    </tr>
+    @foreach (var item in ViewBag.PatientTestItem)
+    {
+        <tr>
+            <td colspan="3">@item.Code</td>
+            <td colspan="3">@item.Name</td>
+            <td colspan="3">@item.Amount</td>
+        </tr>
+    }
+    <tr>
+        <th colspan="3">&nbsp;</th>
+        <th colspan="3">Total Amount</th>
+        <th colspan="3">@ViewData["TotalAmount"]</th>
+    </tr>
+    <tr>
+        <th colspan="3">&nbsp;</th>
+        <th colspan="3">Less Amount</th>
+        <th colspan="3">@ViewData["LessAmount"]</th>
+    </tr>
+    <tr>
+        <th colspan="3">&nbsp;</th>
+        <th colspan="3">Paid Amount</th>
+        <th colspan="3">@ViewData["TotalCollection"]</th>
+    </tr>
+    <tr>
+        <th colspan="3">&nbsp;</th>
+        <th colspan="3">Due Amount</th>
+        <th colspan="3">@ViewData["DueAmount"]</th>
+    </tr>
+</table>
+<br />
+<br />
+<br />
+<br />
+<table>
+    <tr>
+        <td class="remove-border" colspan="3">Date : ..................</td>
+
+        <td class="remove-border" colspan="3">Signature : ..................</td>
+    </tr>
+</table>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    .remove-border {
+        border: 0px solid white;
+    }
+</style>
+

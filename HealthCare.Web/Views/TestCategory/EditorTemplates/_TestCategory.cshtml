@@ -1,0 +1,24 @@
+
+@using System
+@model HealthCare.Web.Models.TestCategory.TestCategoryViewModel
+@using HealthCare.Web.Models.Modal
+
+<form asp-action="Save" role="form">
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Test Category" })
+
+    <div class="modal-body form-horizontal">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Category Name</label>
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Category Name", @autofocus = "autofocus" })
+                        <span asp-validation-for="Name" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Save" })
+</form>

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<HealthCare.Web.Models.Report.ReportViewModel>
+
+<table>
+    <tbody>
+        <tr>
+            <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+            <td style="text-align:center">HEALTH CARE CENTRE - @DateTime.Now.Year</td>
+            <td rowspan="2"><img src="~/assets/layouts/layout/img/logo-hcc30.png" style="width: 150px;height: 150px;" /></td>
+        </tr>
+        <tr>
+            @if (@ViewData["ReportType"].ToString() == "PharmacyReport")
+            {
+                <td style="text-align:center">Pharmacy Income Report</td>
+            }
+            else
+            {
+                <td style="text-align:center">Expense Report</td>
+            }
+        </tr>
+    </tbody>
+</table>
+<table>
+    <tr>
+        @*<td colspan="4">Invoice : @ViewData["Name"]</td>*@
+
+        <td colspan="6">Total Amount : @ViewData["TotalAmount"] Tk.</td>
+    </tr>
+</table>
+@if (Model.Count() > 0)
+{
+    <table>
+        <thead>
+            <tr>
+                <th> Invoice </th>
+                <th> Date </th>
+                <th> Particulars </th>
+                <th> Amount </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var expense in Model.ToList())
+            {
+            <tr>
+                <td> @expense.Invoice </td>
+                <td> @expense.CollectionDateString </td>
+                <td> @expense.Particular </td>
+                <td> @expense.Amount </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    .remove-border {
+        border: 0px solid white;
+    }
+</style>
+

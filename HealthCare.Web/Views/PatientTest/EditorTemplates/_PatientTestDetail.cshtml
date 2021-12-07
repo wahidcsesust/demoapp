@@ -1,0 +1,26 @@
+﻿@*@using HtmlHelpers.BeginCollectionItemCore*@
+@using HealthCare.Web.Extensions
+@model HealthCare.Data.Models.PatientTestDetail
+@{
+    Html.ViewContext.FormContext = Html.ViewContext.FormContext ?? new FormContext();
+}
+@using (Html.BeginCollectionItem("PatientTestDetails", Model.Guid.ToString()))
+{
+    @Html.TextBoxFor(m => m.Guid, new { @class = "hidden" })
+    <td>
+        <select asp-for="MedicalTestId" asp-items="@Model.MedicalTests" class="form-control select2" onchange="MedicalTestChangeEvent('@Model.Guid')">
+            <option>Please select</option>
+        </select>
+    </td>
+    <td> @Html.TextBoxFor(m => m.TestRate, new { @class = "form-control", @type = "number" }) </td>
+    @*<td> @Html.TextBoxFor(m => m.Discount, new { @class = "form-control", @type = "number", @onchange= "DiscountChangeEvent(this)" }) </td>*@
+    <td> @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @type = "number" }) </td>
+    <td class="text-center">
+        <a class="btn btn-small btn-danger toUpperCase" href="javascript://" onclick="DeletePatientTestDetail($(this).closest('tr'),@Model.PatientTestId,@Model.Id)"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+    </td>
+
+    <script type="text/javascript">
+        $('#PatientTestDetails_@Model.Guid.ToString()__MedicalTestId').select2({
+        });
+    </script>
+}

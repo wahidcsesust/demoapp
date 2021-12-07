@@ -1,0 +1,55 @@
+
+@using System
+@model HealthCare.Web.Models.MedicalTest.MedicalTestViewModel
+@using HealthCare.Web.Models.Modal
+
+<form asp-action="Save" role="form">
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Medical Test" })
+
+    <div class="modal-body form-horizontal">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Test Code</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                        @Html.TextBoxFor(m => m.Code, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Code Name", @autofocus = "autofocus" })
+                        <span asp-validation-for="Code" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Test Name</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Medical Test Name", @autofocus = "autofocus" })
+                        <span asp-validation-for="Name" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Test Rate</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @type = "number", @placeholder = "Test Rate", @autofocus = "autofocus" })
+                        <span asp-validation-for="Amount" class="help-block text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Test Category</label>
+                    <div class="col-md-9">
+                        <select asp-for="TestCategoryId" asp-items="@Model.TestCategories" class="form-control">
+                            <option>Please select</option>
+                        </select>
+                        <span asp-validation-for="TestCategoryId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Save" })
+</form>

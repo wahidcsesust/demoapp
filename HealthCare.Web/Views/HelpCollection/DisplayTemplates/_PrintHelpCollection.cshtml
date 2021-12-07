@@ -1,0 +1,101 @@
+﻿@model HealthCare.Data.Models.HelpCollection;
+
+<table>
+    <tbody>
+        @Html.Partial("_ReportHeader", new HealthCare.Web.Models.Report.ReportHeader { Heading = "সাহায্যের জন্য আবেদন ফরম" })
+        <tr>
+            <td colspan="3" style="font-weight:bold"> সাহায্য নং - @Model.SerialNo</td>
+        </tr>
+        <tr><td colspan="3" class="remove-border"></td></tr>
+        <tr>
+            <td colspan="3" class="remove-border" style="font-weight:bold"> বিষয় : @Model.Subject</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table style="font-size:small">
+    <tr>
+        <td class="remove-border"> আবেদনকারীর নাম </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">@Model.Name</td>
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+        <td class="remove-border"> পেশা </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">@Model.Profession</td>
+    </tr>
+    <tr>
+        <td class="remove-border"> পিতা/স্বামীর নাম </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">@Model.FatherName</td>
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+        <td class="remove-border"> মাতার নাম </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">@Model.MotherName</td>
+    </tr>
+    <tr>
+        <td class="remove-border"> ঠিকানা </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">@Model.Address</td>
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+        <td class="remove-border"> মোবাইল নং  </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">@Model.MobileNumber</td>
+    </tr>
+    <tr>
+        <td class="remove-border"> জাতীয় পরিচয়পত্র নং </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">@Model.NationalIdNo</td>
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+        <td class="remove-border">বয়স  </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">@Model.Age</td>
+
+    </tr>
+    <tr>
+        <td class="remove-border"> লিঙ্গ </td>
+        <td class="remove-border">: </td>
+        <td class="remove-border">@Model.Gender</td>
+
+        <td class="remove-border"></td>
+        <td class="remove-border"></td>
+
+        <td class="remove-border">ধর্ম  </td>
+        <td class="remove-border">:</td>
+        <td class="remove-border">@Model.Religion</td>
+    </tr>
+</table>
+<br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <td colspan="2" style="text-align:center; font-weight:bold;">রেফারেন্স</td>
+        </tr>
+        <tr><td colspan="2" class="remove-border"></td></tr>
+        <tr class="font-small">
+            <td class="remove-border">সদস্যের নং : @Model.Member.RegNo</td>
+            <td class="remove-border text-right">সদস্যের নাম : @Model.Member.Name</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<table>
+    <tbody>
+        <tr>
+            <td colspan="2" style="text-align:center; font-weight:bold;">অঙ্গীকার নামা</td>
+        </tr>
+        <tr style="font-size:small">
+            <td colspan="2">
+                আমি <span style="font-weight:bold;"> @Model.Name </span>এই মর্মে স্বেচ্ছায়, স্বজ্ঞানে ও সুস্থ মস্তিস্কে স্বীকার করছি যে, আমার দেওয়া উপরোল্লিখিত সকল তথ্য সত্য এবং নির্ভুল। এছাড়া আরো
+                অঙ্গীকার করছি যে, সংগঠনের এই সাহায্য নিঃস্বার্থ ও নি;শর্তভাবে গ্রহন করছি। এই সাহায্যর সাথে অন্য কোন স্বার্থের প্রমান পাওয়া গেলে সাহায্য বাতিল বলিয়া গণ্য হইবে।
+            </td>
+        </tr>
+        @Html.Partial("_ReportFooter")
+    </tbody>
+</table>
+<link href="~/css/report.css" rel="stylesheet" />

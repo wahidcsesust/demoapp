@@ -1,0 +1,139 @@
+﻿@using System
+@model HealthCare.Web.Models.Patients.PatientsViewModel
+@using HealthCare.Data.Models
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Patients Setup
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"> </a>
+            <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+            <a href="javascript:;" class="reload"> </a>
+            <a href="javascript:;" class="remove"> </a>
+        </div>
+    </div>
+
+    <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <form class="form-horizontal" role="form" method="post" asp-controller="Patients" asp-action="Save">
+            <div class="form-body">
+                <h3 class="form-section">Patients Information</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Patients Name</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                                @Html.TextBoxFor(m => m.RegNo, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Patients Name", @autofocus = "autofocus" })
+                                <span asp-validation-for="RegNo" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Age</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Age, new { @class = "form-control placeholder-no-fix", @type = "number", @autocomplete = "off", @placeholder = "Age", @autofocus = "autofocus" })
+                                <span asp-validation-for="Age" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Sex</label>
+                            <div class="col-md-9 radio-list">
+                                @if (Model.Gender != null && Model.Gender.Equals("Male"))
+                                {
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Gender" id="optionsMale" value="Male" checked> Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Gender" id="optionsFemale" value="Female"> Female
+                                    </label>
+                                }
+                                else
+                                {
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Gender" id="optionsMale" value="Male"> Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Gender" id="optionsFemale" value="Female" checked> Female
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Date Of Birth</label>
+                            <div class="col-md-9">
+                                @*<input class="form-control" id="mask_date2" type="text" />*@
+                                @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control placeholder-no-fix", @id = "mask_date2", @autocomplete = "off", @placeholder = "Date Of Birth", @autofocus = "autofocus" })
+                                <span asp-validation-for="DateOfBirth" class="text-danger" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Blood Group</label>
+                            <div class="col-md-9">
+                                <select asp-for="BloodGroup" asp-items="Html.GetEnumSelectList<BloodGroupEnum>()" class="form-control">
+                                    <option value="">Please select</option>
+                                </select>
+                                <span asp-validation-for="BloodGroup" class="text-danger" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Mobile Number</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Mobile Number", @autofocus = "autofocus" })
+                                <span asp-validation-for="MobileNumber" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Address</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control placeholder-no-fix", @autocomplete = "off", @placeholder = "Address", @autofocus = "autofocus" })
+                                <span asp-validation-for="Address" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Weight</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(m => m.Weight, new { @class = "form-control placeholder-no-fix", @type = "number", @autocomplete = "off", @placeholder = "Weight", @autofocus = "autofocus" })
+                                <span asp-validation-for="Weight" class="help-block text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-9"> </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn green">Save</button>
+                                <a type="button" class="btn default" asp-controller="Patients" asp-action="Manage">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

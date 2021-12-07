@@ -1,0 +1,115 @@
+﻿@{
+
+}
+<style>
+    .VuePagination nav {
+        width: 100%;
+    }
+
+    .table th, .table td {
+        padding: 0.20rem;
+        vertical-align: middle;
+        border-top: 1px solid rgba(0,0,0,0.05)
+    }
+
+    .ui-menu-item-wrapper, .ui-menu-item-wrapper {
+        color: #333333 !important;
+        text-decoration: none;
+        background-color: #ffffff !important;
+    }
+
+        .ui-menu-item-wrapper:hover, .ui-menu-item-wrapper:focus {
+            color: #fff !important;
+            text-decoration: none;
+            background-color: #f6a92a !important;
+        }
+
+    .columns {
+        padding: 2px 5px;
+        border: 1px solid #c7c7c7;
+        cursor: move;
+        margin-bottom: 3px;
+        background-color: #ececec;
+        border-radius: 3px;
+        color: #6f6b62;
+        font-weight: 500;
+        font-size: .75rem;
+    }
+
+        .columns.diabled {
+            opacity: .5;
+        }
+
+            .columns.diabled:hover {
+                opacity: 1;
+            }
+</style>
+
+<div id="vc_app">
+    <div class="portlet light bordered">
+        <div class="portlet-body">
+            <div class="table-toolbar">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group">
+                            <a @@click="AddOrUpdate('')" class="btn sbold green">
+                                <i class="fa fa-plus"></i>  Add New
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <v-client-table :data="modelList" :columns="columns" class="table-sm" :options="options">
+                <template slot="edit" slot-scope="props">
+                        <a v-tooltip="'Edit'" @@click="AddOrUpdate(props.row.id)" href="javascript:;"><i class="fa fa-edit"></i></a>
+                    </template>
+                    <template slot="delete" slot-scope="props">
+                        <a v-tooltip="'Delete'" @@click="Delete(props.row.id)" href="javascript:;"><i class="glyphicon glyphicon-trash"></i></a>
+                    </template>
+            </v-client-table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
+    <script>
+        Vue.use(VueTables.ClientTable);
+        Vue.use(VeeValidate);
+        var app = new Vue({
+            el: '#vc_app',
+            data: {
+                modelList: [],
+                columns: ['patientName', 'edit', 'delete'],
+                options: {
+                    headings: {
+                        patientName: 'Patient Name',
+                        edit: 'Edit',
+                        delete: 'Delete'
+                    },
+                    columnsClasses: {
+                        edit: 'text-center w-2b',
+                        delete: 'text-center w-2b',
+                    },
+                    sortable: ['name'],
+                    filterable: ['name']
+                },
+            },
+            mounted: function () {
+                this._LoadModelList();
+            },
+            methods: {
+                _LoadModelList: function () {
+                    helper.get('/PatientAdmission/getall', null, (response) => {
+                        this.modelList = response.modelList;
+                    });
+                },
+                AddOrUpdate: function (id) {
+                    debugger;
+                    window.location.href = '/PatientAdmission/Manage/'+id;
+                },
+            }
+        });
+
+    </script>
+}

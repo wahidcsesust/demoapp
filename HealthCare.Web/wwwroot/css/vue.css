@@ -1,0 +1,16 @@
+﻿.VueTables__search label, .VueTables__limit label {
+    display: none;
+}
+
+
+.portlet.light {
+    padding: 12px 20px 3px !important;
+}
+
+.portlet > .portlet-body p {
+    margin-top: 5px !important;
+}
+
+span.error {
+    color: red;
+}
